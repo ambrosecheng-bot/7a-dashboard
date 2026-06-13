@@ -5,119 +5,130 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ambrose 7A Life Cockpit | 人生駕駛艙</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a1628; color: #e8f4f8; min-height: 100vh; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a1628; color: #e8f4f8; min-height: 100vh; }
 
-  .header { background: linear-gradient(135deg, #0a2540 0%, #0e4d6b 50%, #0a7a6b 100%); padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
-  .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; }
-  .header-title { font-size: 22px; font-weight: 600; color: #fff; }
-  .header-sub { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 2px; }
-  .header-date { font-size: 12px; color: rgba(255,255,255,0.6); text-align: right; }
-  .verse { font-size: 12px; font-style: italic; color: rgba(255,255,255,0.6); margin-top: 0.75rem; border-left: 3px solid #1a9b7a; padding-left: 10px; }
-  .stats-row { display: flex; gap: 12px; margin-top: 1rem; flex-wrap: wrap; }
-  .stat-pill { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 14px; text-align: center; }
-  .stat-num { font-size: 20px; font-weight: 600; color: #5dd6c0; }
-  .stat-label { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 1px; }
+/* HEADER */
+.header { background: linear-gradient(135deg, #0a2540 0%, #0e4d6b 50%, #0a7a6b 100%); padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; }
+.header-title { font-size: 22px; font-weight: 600; color: #fff; }
+.header-sub { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 2px; }
+.header-date { font-size: 12px; color: rgba(255,255,255,0.6); text-align: right; }
+.verse { font-size: 12px; font-style: italic; color: rgba(255,255,255,0.75); margin-top: 0.75rem; border-left: 3px solid #1a9b7a; padding-left: 10px; }
+.stats-row { display: flex; gap: 10px; margin-top: 1rem; flex-wrap: wrap; }
+.stat-pill { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 14px; text-align: center; }
+.stat-num { font-size: 20px; font-weight: 600; color: #5dd6c0; }
+.stat-label { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 1px; }
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 1.25rem; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+/* LAYOUT */
+.container { max-width: 1200px; margin: 0 auto; padding: 1.25rem; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
 
-  .sec-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: #5dd6c0; text-transform: uppercase; margin: 1.25rem 0 0.6rem; }
+/* LABELS */
+.sec-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: #5dd6c0; text-transform: uppercase; margin: 1.25rem 0 0.6rem; }
 
-  .card { background: #0f2035; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; }
+/* CARDS */
+.card { background: #0f2035; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; }
 
-  .quote-card { background: linear-gradient(135deg, #0a2540, #0a3d2a); border: 1px solid rgba(26,155,122,0.3); border-radius: 12px; padding: 0.9rem 1.1rem; margin-bottom: 0.5rem; }
-  .quote-text { font-size: 13px; font-style: italic; color: #a8d8cf; line-height: 1.6; }
+/* QUOTE */
+.quote-card { background: linear-gradient(135deg, #0a2540, #0a3d2a); border: 1px solid rgba(26,155,122,0.3); border-radius: 12px; padding: 0.9rem 1.1rem; margin-bottom: 1rem; }
+.quote-text { font-size: 13px; font-style: italic; color: #a8d8cf; line-height: 1.6; }
 
-  .a-subtabs { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 1rem; }
-  @media (max-width: 900px) { .a-subtabs { grid-template-columns: repeat(4, 1fr); } }
-  @media (max-width: 600px) { .a-subtabs { grid-template-columns: repeat(2, 1fr); } }
-  .a-subtab { border-left: 4px solid; border-top: 1px solid rgba(255,255,255,0.07); border-right: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07); border-radius: 0 10px 10px 0; padding: 0.7rem 0.6rem; cursor: pointer; background: #0f2035; transition: background 0.2s; text-align: center; }
-  .a-subtab:hover { background: #162d47; }
-  .a-subtab.active { background: #162d47; }
-  .a-subtab-icon { font-size: 20px; margin-bottom: 4px; }
-  .a-subtab-name { font-size: 10px; font-weight: 600; color: #e8f4f8; line-height: 1.3; }
-  .a-subtab-cn { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
-  .a-subtab-pct { font-size: 13px; font-weight: 700; margin-top: 4px; }
-  .a-subtab-bar { height: 3px; border-radius: 2px; background: rgba(255,255,255,0.1); overflow: hidden; margin-top: 5px; }
-  .a-subtab-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
-  .a-detail-card { background: #0f2035; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.25rem 1.4rem; }
-  .a-detail-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
-  .a-detail-title { font-size: 20px; font-weight: 700; }
-  .a-detail-cn { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 2px; }
-  .a-detail-pct-block { text-align: right; }
-  .a-detail-pct { font-size: 36px; font-weight: 700; }
-  .a-detail-section { margin-bottom: 1rem; }
-  .a-detail-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5dd6c0; margin-bottom: 6px; }
-  .a-detail-text { font-size: 13px; color: #c8e0e8; line-height: 1.6; }
-  .a-detail-goal-box { background: rgba(26,155,122,0.1); border: 1px solid rgba(26,155,122,0.25); border-radius: 10px; padding: 0.9rem 1rem; }
-  .a-detail-goal-text { font-size: 14px; color: #5dd6c0; line-height: 1.6; font-weight: 500; }
-  .a-detail-actions { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
-  .btn-update { font-size: 12px; padding: 7px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #c8e0e8; cursor: pointer; transition: all 0.2s; }
-  .btn-update:hover { background: rgba(255,255,255,0.07); }
-  .a-card { background: #0f2035; border-left: 4px solid; border-top: 1px solid rgba(255,255,255,0.07); border-right: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07); border-radius: 0 12px 12px 0; padding: 0.9rem 1rem; cursor: pointer; transition: background 0.2s; }
-  .a-card:hover { background: #162d47; }
-  .a-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-  .a-card-name { font-size: 13px; font-weight: 600; color: #e8f4f8; }
-  .a-card-cn { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 1px; }
-  .a-card-pct { font-size: 20px; font-weight: 700; }
-  .prog-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1); overflow: hidden; margin-bottom: 6px; }
-  .prog-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
-  .a-card-goal { font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+/* MAIN TABS */
+.tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+.tab { font-size: 12px; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; }
+.tab.active { background: #0e4d6b; border-color: #5dd6c0; color: #5dd6c0; }
 
-  .tb-list { display: flex; flex-direction: column; gap: 6px; }
-  .tb-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 12px; cursor: pointer; transition: opacity 0.2s; }
-  .tb-item.done { opacity: 0.4; text-decoration: line-through; }
-  .tb-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-  .tb-time { font-weight: 600; color: #5dd6c0; min-width: 75px; font-size: 11px; }
-  .tb-task { flex: 1; color: #c8e0e8; }
-  .tb-check { font-size: 14px; color: #1a9b7a; }
+/* 7A SUBTABS — one row on desktop */
+.a-subtabs { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 1rem; }
+@media (max-width: 900px) { .a-subtabs { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 500px) { .a-subtabs { grid-template-columns: repeat(2, 1fr); } }
+.a-subtab { border-left: 4px solid; border-top: 1px solid rgba(255,255,255,0.07); border-right: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07); border-radius: 0 10px 10px 0; padding: 0.7rem 0.5rem; cursor: pointer; background: #0f2035; transition: background 0.2s; text-align: center; }
+.a-subtab:hover, .a-subtab.active { background: #162d47; }
+.a-subtab-icon { font-size: 20px; margin-bottom: 4px; }
+.a-subtab-name { font-size: 10px; font-weight: 600; color: #e8f4f8; line-height: 1.3; }
+.a-subtab-cn { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.a-subtab-pct { font-size: 13px; font-weight: 700; margin-top: 4px; }
+.a-subtab-bar { height: 3px; border-radius: 2px; background: rgba(255,255,255,0.1); overflow: hidden; margin-top: 5px; }
+.a-subtab-fill { height: 100%; border-radius: 2px; }
 
-  .wins-list { display: flex; flex-direction: column; gap: 6px; }
-  .win-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 12px; color: #c8e0e8; transition: all 0.2s; }
-  .win-item.done { background: rgba(26,155,122,0.15); border-color: rgba(26,155,122,0.3); color: #5dd6c0; }
-  .win-circle { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; font-size: 11px; transition: all 0.2s; }
-  .win-circle.done { background: #1a9b7a; border-color: #1a9b7a; color: white; }
+/* 7A DETAIL */
+.a-detail-card { background: #0f2035; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.25rem 1.4rem; }
+.a-detail-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+.a-detail-title { font-size: 22px; font-weight: 700; }
+.a-detail-cn { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.a-detail-pct { font-size: 40px; font-weight: 700; text-align: right; }
+.a-detail-pct-label { font-size: 11px; color: rgba(255,255,255,0.4); text-align: right; }
+.prog-bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden; margin-bottom: 1.25rem; }
+.prog-fill { height: 100%; border-radius: 4px; }
+.a-detail-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5dd6c0; margin-bottom: 6px; margin-top: 1rem; }
+.a-detail-text { font-size: 13px; color: #c8e0e8; line-height: 1.6; }
+.a-detail-goal-box { background: rgba(26,155,122,0.1); border: 1px solid rgba(26,155,122,0.3); border-radius: 10px; padding: 0.9rem 1rem; margin-top: 6px; }
+.a-detail-goal-text { font-size: 14px; color: #5dd6c0; line-height: 1.6; font-weight: 500; }
+.btn-update { font-size: 12px; padding: 8px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #c8e0e8; cursor: pointer; margin-top: 1rem; transition: all 0.2s; }
+.btn-update:hover { background: rgba(255,255,255,0.07); }
 
-  .days-row { display: flex; gap: 6px; justify-content: space-between; }
-  .day-dot { flex: 1; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; color: rgba(255,255,255,0.4); transition: all 0.2s; }
-  .day-dot.today { background: #0e4d6b; border-color: #5dd6c0; color: #5dd6c0; }
-  .day-dot.checked { background: #1a9b7a; border-color: #1a9b7a; color: white; }
+/* TIMEBOX */
+.tb-list { display: flex; flex-direction: column; gap: 6px; }
+.tb-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 12px; cursor: pointer; }
+.tb-item.done { opacity: 0.4; text-decoration: line-through; }
+.tb-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.tb-time { font-weight: 600; color: #5dd6c0; min-width: 80px; font-size: 11px; }
+.tb-task { flex: 1; color: #c8e0e8; }
+.tb-check { font-size: 14px; color: #1a9b7a; }
 
-  .reflect-group { margin-bottom: 10px; }
-  .reflect-label { font-size: 11px; color: #5dd6c0; margin-bottom: 4px; font-weight: 600; }
-  textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; color: #e8f4f8; font-size: 13px; font-family: inherit; resize: vertical; min-height: 64px; transition: border-color 0.2s; }
-  textarea:focus { outline: none; border-color: #5dd6c0; }
-  textarea::placeholder { color: rgba(255,255,255,0.25); }
+/* WINS */
+.wins-list { display: flex; flex-direction: column; gap: 6px; }
+.win-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 12px; color: #c8e0e8; }
+.win-item.done { background: rgba(26,155,122,0.15); border-color: rgba(26,155,122,0.3); color: #5dd6c0; }
+.win-circle { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; font-size: 11px; }
+.win-circle.done { background: #1a9b7a; border-color: #1a9b7a; color: white; }
 
-  .mood-row { display: flex; gap: 6px; margin-bottom: 12px; }
-  .mood-btn { font-size: 20px; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; cursor: pointer; transition: all 0.2s; }
-  .mood-btn.sel { border-color: #5dd6c0; background: rgba(93,214,192,0.15); }
+/* DAYS */
+.days-row { display: flex; gap: 6px; }
+.day-dot { flex: 1; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; color: rgba(255,255,255,0.4); }
+.day-dot.today { background: #0e4d6b; border-color: #5dd6c0; color: #5dd6c0; }
+.day-dot.checked { background: #1a9b7a; border-color: #1a9b7a; color: white; }
 
-  .btn { font-size: 12px; padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #c8e0e8; cursor: pointer; margin-top: 8px; width: 100%; transition: all 0.2s; }
-  .btn:hover { background: rgba(255,255,255,0.07); }
-  .btn-save { background: linear-gradient(135deg, #0e4d6b, #1a9b7a); border: none; color: white; font-weight: 600; }
-  .btn-save:hover { opacity: 0.9; }
+/* REFLECTION */
+.reflect-group { margin-bottom: 10px; }
+.reflect-label { font-size: 11px; color: #5dd6c0; margin-bottom: 4px; font-weight: 600; }
+textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; color: #e8f4f8; font-size: 13px; font-family: inherit; resize: vertical; min-height: 64px; }
+textarea:focus { outline: none; border-color: #5dd6c0; }
+textarea::placeholder { color: rgba(255,255,255,0.25); }
+.mood-row { display: flex; gap: 6px; margin-bottom: 12px; }
+.mood-btn { font-size: 20px; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; cursor: pointer; }
+.mood-btn.sel { border-color: #5dd6c0; background: rgba(93,214,192,0.15); }
 
-  .tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
-  .tab { font-size: 12px; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; }
-  .tab.active { background: #0e4d6b; border-color: #5dd6c0; color: #5dd6c0; }
+/* BUTTONS */
+.btn { font-size: 12px; padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #c8e0e8; cursor: pointer; margin-top: 8px; width: 100%; }
+.btn:hover { background: rgba(255,255,255,0.07); }
+.btn-save { background: linear-gradient(135deg, #0e4d6b, #1a9b7a); border: none; color: white; font-weight: 600; }
 
-  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; }
-  .modal-bg.open { display: flex; }
-  .modal { background: #0f2035; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; width: 90%; max-width: 440px; }
-  .modal h3 { font-size: 16px; margin-bottom: 1rem; color: #5dd6c0; }
-  .modal input, .modal select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; color: #e8f4f8; font-size: 13px; font-family: inherit; margin-bottom: 8px; }
-  .modal-btns { display: flex; gap: 8px; margin-top: 8px; }
-  .modal-btns .btn { margin: 0; }
+/* GOALS */
+.goal-card { background: #0f2035; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 10px; }
 
-  .toast { position: fixed; bottom: 24px; right: 24px; background: #1a9b7a; color: white; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 200; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; }
-  .toast.show { opacity: 1; transform: translateY(0); }
+/* MODAL */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; }
+.modal-bg.open { display: flex; }
+.modal { background: #0f2035; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; width: 90%; max-width: 440px; }
+.modal h3 { font-size: 16px; margin-bottom: 1rem; color: #5dd6c0; }
+.modal input, .modal select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; color: #e8f4f8; font-size: 13px; font-family: inherit; margin-bottom: 8px; }
+.modal-btns { display: flex; gap: 8px; margin-top: 8px; }
+.modal-btns .btn { margin: 0; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 24px; right: 24px; background: #1a9b7a; color: white; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 200; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; }
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* FOOTER */
+.footer { text-align: center; padding: 1.5rem; font-size: 11px; color: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.06); margin-top: 1.5rem; }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
   <div class="header-top">
     <div>
@@ -126,7 +137,7 @@
     </div>
     <div class="header-date" id="headerDate"></div>
   </div>
-  <div class="verse">「你手所當做的事要盡力去做」— 傳道書 9:10 · "Whatever your hand finds to do, do it with all your might." — Ecclesiastes 9:10</div>
+  <div class="verse">「你手所當做的事要盡力去做」— 傳道書 9:10 &nbsp;·&nbsp; "Whatever your hand finds to do, do it with all your might." — Ecclesiastes 9:10</div>
   <div class="stats-row">
     <div class="stat-pill"><div class="stat-num" id="statOverall">0%</div><div class="stat-label">Overall · 整體</div></div>
     <div class="stat-pill"><div class="stat-num" id="statStreak">1</div><div class="stat-label">Day streak · 連續</div></div>
@@ -136,69 +147,68 @@
   </div>
 </div>
 
+<!-- MAIN -->
 <div class="container">
 
-  <div class="quote-card" id="quoteCard"></div>
+  <div class="quote-card"><div class="quote-text" id="quoteText">Loading...</div></div>
 
+  <!-- MAIN TABS -->
   <div class="tabs">
-    <button class="tab active" onclick="showTab('7a')">7A Progress · 七大進度</button>
-    <button class="tab" onclick="showTab('today')">Today · 今日</button>
-    <button class="tab" onclick="showTab('reflect')">Reflection · 反思</button>
-    <button class="tab" onclick="showTab('goals')">Goals · 目標</button>
+    <button class="tab active" id="maintab-7a"      onclick="showTab('7a')">7A Progress · 七大進度</button>
+    <button class="tab"        id="maintab-today"   onclick="showTab('today')">Today · 今日</button>
+    <button class="tab"        id="maintab-reflect" onclick="showTab('reflect')">Reflection · 反思</button>
+    <button class="tab"        id="maintab-goals"   onclick="showTab('goals')">Goals · 目標</button>
   </div>
 
-  <!-- TAB: 7A — NOW FIRST -->
+  <!-- TAB: 7A -->
   <div id="tab-7a">
-    <div class="sec-label">🎯 Seven Areas · 七大生命領域 <span style="color:rgba(255,255,255,0.35); font-size:10px; text-transform:none; letter-spacing:0;">(Click an area to explore · 點擊領域深入了解)</span></div>
-    <!-- 7A Sub-tabs -->
+    <div class="sec-label">🎯 Seven Areas · 七大生命領域
+      <span style="color:rgba(255,255,255,0.35);font-size:10px;text-transform:none;letter-spacing:0;"> — Click an area · 點擊選擇領域</span>
+    </div>
     <div class="a-subtabs" id="aSubtabs"></div>
-    <!-- 7A Detail Panel -->
     <div id="aDetail"></div>
   </div>
 
   <!-- TAB: TODAY -->
-  <div id="tab-today" style="display:none">
+  <div id="tab-today" style="display:none;">
     <div class="grid2">
       <div>
         <div class="sec-label">⏱ Today's Timeboxes · 今日時間盒</div>
         <div class="card">
           <div class="tb-list" id="tbList"></div>
-          <button class="btn" onclick="openTaskModal()">+ Add task · 加任務</button>
+          <button class="btn" onclick="openModal('taskModal')">+ Add task · 加任務</button>
         </div>
       </div>
       <div>
         <div class="sec-label">🏆 Small Wins · 小小勝利</div>
         <div class="card">
           <div class="wins-list" id="winsList"></div>
-          <button class="btn" onclick="openWinModal()">+ Log a win · 記錄勝利</button>
+          <button class="btn" onclick="openModal('winModal')">+ Log a win · 記錄勝利</button>
         </div>
       </div>
     </div>
-
     <div class="sec-label">📅 Weekly Check-in · 本週出勤</div>
     <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <span style="font-size:13px; color:rgba(255,255,255,0.5);">Click to mark a day · 點擊記錄出勤</span>
-        <span style="font-size:18px; font-weight:700; color:#5dd6c0;" id="streakLabel">1 day</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span style="font-size:13px;color:rgba(255,255,255,0.5);">Click to mark a day · 點擊記錄出勤</span>
+        <span style="font-size:18px;font-weight:700;color:#5dd6c0;" id="streakLabel">1 day</span>
       </div>
       <div class="days-row" id="daysRow"></div>
     </div>
   </div>
 
   <!-- TAB: REFLECT -->
-  <div id="tab-reflect" style="display:none">
+  <div id="tab-reflect" style="display:none;">
     <div class="sec-label">✍️ Daily Reflection · 每日反思</div>
     <div class="card">
-      <div style="margin-bottom:12px;">
-        <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:8px;">How do you feel today? · 今天狀態：</div>
-        <div class="mood-row" id="moodRow">
-          <button class="mood-btn" onclick="setMood(this,'💪')">💪</button>
-          <button class="mood-btn" onclick="setMood(this,'😊')">😊</button>
-          <button class="mood-btn" onclick="setMood(this,'😐')">😐</button>
-          <button class="mood-btn" onclick="setMood(this,'😓')">😓</button>
-          <button class="mood-btn" onclick="setMood(this,'🙏')">🙏</button>
-          <button class="mood-btn" onclick="setMood(this,'🔥')">🔥</button>
-        </div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:8px;">How do you feel today? · 今天狀態：</div>
+      <div class="mood-row">
+        <button class="mood-btn" onclick="setMood(this,'💪')">💪</button>
+        <button class="mood-btn" onclick="setMood(this,'😊')">😊</button>
+        <button class="mood-btn" onclick="setMood(this,'😐')">😐</button>
+        <button class="mood-btn" onclick="setMood(this,'😓')">😓</button>
+        <button class="mood-btn" onclick="setMood(this,'🙏')">🙏</button>
+        <button class="mood-btn" onclick="setMood(this,'🔥')">🔥</button>
       </div>
       <div class="reflect-group">
         <div class="reflect-label">🌿 Grateful for · 感恩：</div>
@@ -223,16 +233,14 @@
   </div>
 
   <!-- TAB: GOALS -->
-  <div id="tab-goals" style="display:none">
+  <div id="tab-goals" style="display:none;">
     <div class="sec-label">🌟 Audacious Goals · 宏大目標</div>
     <div id="goalsList"></div>
   </div>
 
-</div>
+</div><!-- /container -->
 
-<div style="text-align:center; padding:1.5rem; font-size:11px; color:rgba(255,255,255,0.3); border-top:1px solid rgba(255,255,255,0.06); margin-top:1.5rem;">
-  ✈️ Ambrose 7A Life Cockpit · 人生駕駛艙 · Built with faith, purpose & AI · 「活好·愛深·傳承有道」
-</div>
+<div class="footer">✈️ Ambrose 7A Life Cockpit · 人生駕駛艙 · Built with faith, purpose & AI · 「活好·愛深·傳承有道」</div>
 
 <!-- MODALS -->
 <div class="modal-bg" id="taskModal">
@@ -270,7 +278,8 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const AREAS = [
+// ── CONSTANTS ─────────────────────────────────────────
+var AREAS = [
   { key:'aging', name:'Aging Well',              cn:'活好每天',   color:'#0e9ab5', icon:'🏃',
     goal:'Gym 2x/week · Daily walks after meals · Blood sugar control · Body-mind-spirit integration',
     audacious:'Run a 5K race by December 2026. Reduce HbA1c to below 7.0 by end of 2026.' },
@@ -294,53 +303,60 @@ const AREAS = [
     audacious:'Establish a productive container garden by summer 2026. Draft autism community farm proposal by 2027.' }
 ];
 
-const QUOTES = [
+var QUOTES = [
   "「你手所當做的事要盡力去做」— 傳道書 9:10",
-  "Small daily improvements over time lead to stunning results. · 每天微小的進步，累積成驚人的成就。",
+  "每天微小的進步，累積成驚人的成就。Small daily improvements lead to stunning results.",
   "You don't have to be great to start, but you have to start to be great.",
-  "Every expert was once a beginner. Keep going, Ambrose. · 每位專家都曾是初學者。繼續前行。",
-  "The best time to plant a tree was 20 years ago. The second best time is now. · 種樹最好的時機是二十年前，其次是現在。",
-  "Faithful in small things — great things will follow. · 小事忠心，大事必成。",
-  "Progress, not perfection. · 進步，而非完美。",
+  "每位專家都曾是初學者。繼續前行，Ambrose。",
+  "種樹最好的時機是二十年前，其次是現在。The second best time is now.",
+  "小事忠心，大事必成。Faithful in small things — great things follow.",
+  "進步，而非完美。Progress, not perfection.",
   "我靠著那加給我力量的，凡事都能做。— 腓立比書 4:13",
   "好，你這又良善又忠心的僕人。— 馬太福音 25:23",
   "你要專心仰賴耶和華。— 箴言 3:5"
 ];
 
-const DEFAULT_TASKS = [
-  { time:'6:00–6:30', task:'Morning devotion & prayer · 晨禱默想', area:'jesus', done:false },
-  { time:'6:30–7:00', task:'Exercise / walk after breakfast · 運動散步', area:'aging', done:false },
-  { time:'9:00–10:30', task:'AI Empowered Impact work block · AI商業工作', area:'ai', done:false },
-  { time:'10:30–10:45', task:'Piano / guitar practice · 鋼琴或結他練習', area:'art', done:false },
-  { time:'2:00–3:30', task:'Authorship · write & post · 寫作發佈', area:'auth', done:false },
-  { time:'4:00–4:30', task:'Urban farming · garden check · 農耕巡視', area:'farm', done:false },
-  { time:'8:00–8:15', task:'Daily reflection · 每日反思', area:'jesus', done:false }
+var DEFAULT_TASKS = [
+  { time:'6:00–6:30',   task:'Morning devotion & prayer · 晨禱默想',         area:'jesus', done:false },
+  { time:'6:30–7:00',   task:'Exercise / walk after breakfast · 運動散步',    area:'aging', done:false },
+  { time:'9:00–10:30',  task:'AI Empowered Impact work block · AI商業工作',   area:'ai',    done:false },
+  { time:'10:30–10:45', task:'Piano / guitar practice · 鋼琴或結他練習',      area:'art',   done:false },
+  { time:'14:00–15:30', task:'Authorship · write & post · 寫作發佈',          area:'auth',  done:false },
+  { time:'16:00–16:30', task:'Urban farming · garden check · 農耕巡視',       area:'farm',  done:false },
+  { time:'20:00–20:15', task:'Daily reflection · 每日反思',                   area:'jesus', done:false }
 ];
 
-const DEFAULT_WINS = [
+var DEFAULT_WINS = [
   { text:'Completed morning devotion · 完成晨禱', done:false },
-  { text:'Walked 20 minutes · 散步20分鐘', done:false },
-  { text:'Made progress on AI landing page · AI登陸頁面進展', done:false }
+  { text:'Walked 20 minutes · 散步20分鐘',        done:false },
+  { text:'Made progress on AI work · AI工作進展', done:false }
 ];
 
-let state = {
-  pct:   { aging:25, art:15, autism:20, ai:30, jesus:35, auth:10, farm:20 },
-  tasks: JSON.parse(JSON.stringify(DEFAULT_TASKS)),
-  wins:  JSON.parse(JSON.stringify(DEFAULT_WINS)),
-  days:  [false,false,false,false,false,false,false],
-  mood:  '',
+// ── STATE ─────────────────────────────────────────────
+var activeArea = 'aging';
+var state = {
+  pct:         { aging:25, art:15, autism:20, ai:30, jesus:35, auth:10, farm:20 },
+  tasks:       JSON.parse(JSON.stringify(DEFAULT_TASKS)),
+  wins:        JSON.parse(JSON.stringify(DEFAULT_WINS)),
+  days:        [false,false,false,false,false,false,false],
+  mood:        '',
   reflections: [],
-  lastDate: ''
+  lastDate:    ''
 };
 
 function loadState() {
-  try { const s = localStorage.getItem('ambrose7a'); if (s) state = JSON.parse(s); } catch(e) {}
+  try {
+    var s = localStorage.getItem('ambrose7a_v3');
+    if (s) { state = JSON.parse(s); }
+  } catch(e) { console.log('loadState error:', e); }
 }
+
 function saveState() {
-  try { localStorage.setItem('ambrose7a', JSON.stringify(state)); } catch(e) {}
+  try { localStorage.setItem('ambrose7a_v3', JSON.stringify(state)); } catch(e) {}
 }
+
 function checkNewDay() {
-  const today = new Date().toDateString();
+  var today = new Date().toDateString();
   if (state.lastDate !== today) {
     if (state.lastDate) {
       state.tasks = JSON.parse(JSON.stringify(DEFAULT_TASKS));
@@ -352,132 +368,167 @@ function checkNewDay() {
   }
 }
 
-function renderAll() {
-  renderHeader(); renderQuote(); render7A();
-  renderTasks(); renderWins(); renderDays();
-  renderGoals(); renderPastReflections(); updateStats();
-}
-
+// ── RENDER FUNCTIONS ──────────────────────────────────
 function renderHeader() {
-  const now = new Date();
+  var now = new Date();
+  var opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
   document.getElementById('headerDate').innerHTML =
-    now.toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) +
-    '<br><span style="font-size:11px;color:rgba(255,255,255,0.4)">Southampton, UK 🇬🇧</span>';
+    now.toLocaleDateString('en-GB', opts) +
+    '<br><span style="font-size:11px;color:rgba(255,255,255,0.4);">Southampton, UK 🇬🇧</span>';
 }
 
 function renderQuote() {
-  const q = QUOTES[new Date().getDay() % QUOTES.length];
-  document.getElementById('quoteCard').innerHTML = `<div class="quote-text">💬 ${q}</div>`;
+  var idx = new Date().getDay() % QUOTES.length;
+  document.getElementById('quoteText').textContent = '💬 ' + QUOTES[idx];
 }
 
-function render7A() {
-  document.getElementById('aGrid').innerHTML = AREAS.map(a => `
-    <div class="a-card" style="border-left-color:${a.color}" onclick="editPct('${a.key}')">
-      <div class="a-card-header">
-        <div>
-          <div class="a-card-name">${a.icon} ${a.name}</div>
-          <div class="a-card-cn">${a.cn}</div>
-        </div>
-        <div class="a-card-pct" style="color:${a.color}">${state.pct[a.key]}%</div>
-      </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${state.pct[a.key]}%;background:${a.color}"></div></div>
-      <div class="a-card-goal">${a.goal}</div>
-    </div>`).join('');
+function render7ASubtabs() {
+  var html = '';
+  for (var i = 0; i < AREAS.length; i++) {
+    var a = AREAS[i];
+    var isActive = (activeArea === a.key) ? ' active' : '';
+    html += '<div class="a-subtab' + isActive + '" style="border-left-color:' + a.color + '" onclick="selectArea(\'' + a.key + '\')">' +
+      '<div class="a-subtab-icon">' + a.icon + '</div>' +
+      '<div class="a-subtab-name">' + a.name + '</div>' +
+      '<div class="a-subtab-cn">' + a.cn + '</div>' +
+      '<div class="a-subtab-pct" style="color:' + a.color + '">' + state.pct[a.key] + '%</div>' +
+      '<div class="a-subtab-bar"><div class="a-subtab-fill" style="width:' + state.pct[a.key] + '%;background:' + a.color + '"></div></div>' +
+      '</div>';
+  }
+  document.getElementById('aSubtabs').innerHTML = html;
+}
+
+function render7ADetail() {
+  var a = null;
+  for (var i = 0; i < AREAS.length; i++) {
+    if (AREAS[i].key === activeArea) { a = AREAS[i]; break; }
+  }
+  if (!a) return;
+  document.getElementById('aDetail').innerHTML =
+    '<div class="a-detail-card" style="border-top:3px solid ' + a.color + ';">' +
+      '<div class="a-detail-header">' +
+        '<div>' +
+          '<div class="a-detail-title" style="color:' + a.color + '">' + a.icon + ' ' + a.name + '</div>' +
+          '<div class="a-detail-cn">' + a.cn + '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="a-detail-pct" style="color:' + a.color + '">' + state.pct[a.key] + '%</div>' +
+          '<div class="a-detail-pct-label">Progress · 進度</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="prog-bar"><div class="prog-fill" style="width:' + state.pct[a.key] + '%;background:' + a.color + '"></div></div>' +
+      '<div class="a-detail-label">📌 Current Focus · 現時焦點</div>' +
+      '<div class="a-detail-text">' + a.goal + '</div>' +
+      '<div class="a-detail-label">🌟 Audacious Goal · 宏大目標</div>' +
+      '<div class="a-detail-goal-box"><div class="a-detail-goal-text">' + a.audacious + '</div></div>' +
+      '<button class="btn-update" onclick="editPct(\'' + a.key + '\')">✏️ Update progress · 更新進度</button>' +
+    '</div>';
 }
 
 function renderTasks() {
-  document.getElementById('tbList').innerHTML = state.tasks.map((t,i) => {
-    const a = AREAS.find(x => x.key === t.area);
-    return `<div class="tb-item ${t.done?'done':''}" onclick="toggleTask(${i})">
-      <div class="tb-dot" style="background:${a?.color||'#888'}"></div>
-      <span class="tb-time">${t.time}</span>
-      <span class="tb-task">${t.task}</span>
-      ${t.done?'<span class="tb-check">✓</span>':''}
-    </div>`;
-  }).join('');
-  updateStats();
+  var html = '';
+  for (var i = 0; i < state.tasks.length; i++) {
+    var t = state.tasks[i];
+    var areaColor = '#888';
+    for (var j = 0; j < AREAS.length; j++) {
+      if (AREAS[j].key === t.area) { areaColor = AREAS[j].color; break; }
+    }
+    html += '<div class="tb-item' + (t.done ? ' done' : '') + '" onclick="toggleTask(' + i + ')">' +
+      '<div class="tb-dot" style="background:' + areaColor + '"></div>' +
+      '<span class="tb-time">' + t.time + '</span>' +
+      '<span class="tb-task">' + t.task + '</span>' +
+      (t.done ? '<span class="tb-check">✓</span>' : '') +
+      '</div>';
+  }
+  document.getElementById('tbList').innerHTML = html;
 }
 
 function renderWins() {
-  document.getElementById('winsList').innerHTML = state.wins.map((w,i) => `
-    <div class="win-item ${w.done?'done':''}">
-      <div class="win-circle ${w.done?'done':''}" onclick="toggleWin(${i})">${w.done?'✓':''}</div>
-      <span>${w.text}</span>
-    </div>`).join('');
-  updateStats();
+  var html = '';
+  for (var i = 0; i < state.wins.length; i++) {
+    var w = state.wins[i];
+    html += '<div class="win-item' + (w.done ? ' done' : '') + '">' +
+      '<div class="win-circle' + (w.done ? ' done' : '') + '" onclick="toggleWin(' + i + ')">' + (w.done ? '✓' : '') + '</div>' +
+      '<span>' + w.text + '</span>' +
+      '</div>';
+  }
+  document.getElementById('winsList').innerHTML = html;
 }
 
 function renderDays() {
-  const labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const todayIdx = (new Date().getDay()+6)%7;
-  document.getElementById('daysRow').innerHTML = labels.map((d,i) => {
-    const cls = i===todayIdx?'today':(state.days[i]?'checked':'');
-    return `<div class="day-dot ${cls}" onclick="toggleDay(${i})">${d}</div>`;
-  }).join('');
-  const streak = state.days.filter(Boolean).length+1;
-  document.getElementById('streakLabel').textContent = streak+(streak===1?' day':' days');
+  var labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var todayIdx = (new Date().getDay() + 6) % 7;
+  var html = '';
+  for (var i = 0; i < 7; i++) {
+    var cls = (i === todayIdx) ? 'today' : (state.days[i] ? 'checked' : '');
+    html += '<div class="day-dot ' + cls + '" onclick="toggleDay(' + i + ')">' + labels[i] + '</div>';
+  }
+  document.getElementById('daysRow').innerHTML = html;
+  var streak = 1;
+  for (var i = 0; i < state.days.length; i++) { if (state.days[i]) streak++; }
+  document.getElementById('streakLabel').textContent = streak + (streak === 1 ? ' day' : ' days');
 }
 
 function renderGoals() {
-  document.getElementById('goalsList').innerHTML = AREAS.map(a => `
-    <div class="card" style="margin-bottom:10px;border-left:4px solid ${a.color};border-radius:0 12px 12px 0;">
-      <div style="font-size:14px;font-weight:600;color:${a.color};margin-bottom:6px;">${a.icon} ${a.name} · ${a.cn}</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">Current focus · 現時焦點：</div>
-      <div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">${a.goal}</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">🌟 Audacious goal · 宏大目標：</div>
-      <div style="font-size:13px;color:#5dd6c0;margin-bottom:10px;">${a.audacious}</div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">
-        <span>Progress · 進度</span><span>${state.pct[a.key]}%</span>
-      </div>
-      <div class="prog-bar" style="height:7px;"><div class="prog-fill" style="width:${state.pct[a.key]}%;background:${a.color}"></div></div>
-    </div>`).join('');
+  var html = '';
+  for (var i = 0; i < AREAS.length; i++) {
+    var a = AREAS[i];
+    html += '<div class="goal-card" style="border-left:4px solid ' + a.color + ';border-radius:0 12px 12px 0;">' +
+      '<div style="font-size:14px;font-weight:600;color:' + a.color + ';margin-bottom:6px;">' + a.icon + ' ' + a.name + ' · ' + a.cn + '</div>' +
+      '<div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">Current focus · 現時焦點：</div>' +
+      '<div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">' + a.goal + '</div>' +
+      '<div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">🌟 Audacious goal · 宏大目標：</div>' +
+      '<div style="font-size:13px;color:#5dd6c0;margin-bottom:10px;">' + a.audacious + '</div>' +
+      '<div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">' +
+        '<span>Progress · 進度</span><span>' + state.pct[a.key] + '%</span>' +
+      '</div>' +
+      '<div class="prog-bar" style="height:6px;"><div class="prog-fill" style="width:' + state.pct[a.key] + '%;background:' + a.color + '"></div></div>' +
+    '</div>';
+  }
+  document.getElementById('goalsList').innerHTML = html;
 }
 
 function renderPastReflections() {
-  const el = document.getElementById('pastReflections');
-  if (!state.reflections.length) {
-    el.innerHTML = `<div class="card" style="color:rgba(255,255,255,0.35);font-size:13px;">No reflections saved yet · 尚未儲存任何反思</div>`;
+  var el = document.getElementById('pastReflections');
+  if (!state.reflections || !state.reflections.length) {
+    el.innerHTML = '<div class="card" style="color:rgba(255,255,255,0.35);font-size:13px;">No reflections saved yet · 尚未儲存任何反思</div>';
     return;
   }
-  el.innerHTML = state.reflections.slice(-5).reverse().map(r => `
-    <div class="card" style="margin-bottom:10px;">
-      <div style="font-size:11px;color:#5dd6c0;margin-bottom:8px;">${r.date} ${r.mood}</div>
-      ${r.r1?`<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">🌿 Grateful · 感恩</div><div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">${r.r1}</div>`:''}
-      ${r.r2?`<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">💡 Lesson · 功課</div><div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">${r.r2}</div>`:''}
-      ${r.r3?`<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">🎯 Tomorrow · 明日</div><div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">${r.r3}</div>`:''}
-      ${r.r4?`<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">🙏 Prayer · 禱告</div><div style="font-size:13px;color:#c8e0e8;">${r.r4}</div>`:''}
-    </div>`).join('');
+  var recent = state.reflections.slice(-5).reverse();
+  var html = '';
+  for (var i = 0; i < recent.length; i++) {
+    var r = recent[i];
+    html += '<div class="card" style="margin-bottom:10px;">' +
+      '<div style="font-size:11px;color:#5dd6c0;margin-bottom:8px;">' + r.date + ' ' + (r.mood||'') + '</div>' +
+      (r.r1 ? '<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">🌿 Grateful · 感恩</div><div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">' + r.r1 + '</div>' : '') +
+      (r.r2 ? '<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">💡 Lesson · 功課</div><div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">' + r.r2 + '</div>' : '') +
+      (r.r3 ? '<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">🎯 Tomorrow · 明日</div><div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">' + r.r3 + '</div>' : '') +
+      (r.r4 ? '<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">🙏 Prayer · 禱告</div><div style="font-size:13px;color:#c8e0e8;">' + r.r4 + '</div>' : '') +
+      '</div>';
+  }
+  el.innerHTML = html;
 }
 
 function updateStats() {
-  const avg = Math.round(Object.values(state.pct).reduce((s,v)=>s+v,0)/AREAS.length);
-  const streak = state.days.filter(Boolean).length+1;
-  const wins = state.wins.filter(w=>w.done).length;
-  const left = state.tasks.filter(t=>!t.done).length;
-  // ── TARGET: 5 Sep 2028 ──
-  const target = new Date('2028-09-05');
-  const daysLeft = Math.max(0, Math.ceil((target - new Date()) / 86400000));
-  document.getElementById('statOverall').textContent = avg+'%';
-  document.getElementById('statStreak').textContent = streak;
-  document.getElementById('statWins').textContent = wins;
-  document.getElementById('statTasks').textContent = left;
-  document.getElementById('statDays').textContent = daysLeft.toLocaleString();
+  var total = 0;
+  for (var k in state.pct) { total += state.pct[k]; }
+  var avg = Math.round(total / AREAS.length);
+  var streak = 1;
+  for (var i = 0; i < state.days.length; i++) { if (state.days[i]) streak++; }
+  var wins = 0;
+  for (var i = 0; i < state.wins.length; i++) { if (state.wins[i].done) wins++; }
+  var left = 0;
+  for (var i = 0; i < state.tasks.length; i++) { if (!state.tasks[i].done) left++; }
+  var target = new Date('2028-09-05');
+  var daysLeft = Math.max(0, Math.ceil((target - new Date()) / 86400000));
+  document.getElementById('statOverall').textContent = avg + '%';
+  document.getElementById('statStreak').textContent  = streak;
+  document.getElementById('statWins').textContent    = wins;
+  document.getElementById('statTasks').textContent   = left;
+  document.getElementById('statDays').textContent    = daysLeft.toLocaleString();
 }
 
-function toggleTask(i) {
-  state.tasks[i].done = !state.tasks[i].done;
-  saveState(); renderTasks();
-  if (state.tasks[i].done) showToast('Task done! · 任務完成！✓');
-}
-function toggleWin(i) {
-  state.wins[i].done = !state.wins[i].done;
-  saveState(); renderWins();
-  if (state.wins[i].done) showToast('🎉 Win celebrated! · 勝利慶祝！');
-}
-function toggleDay(i) {
-  state.days[i] = !state.days[i];
-  saveState(); renderDays(); updateStats();
-}
+// ── ACTIONS ───────────────────────────────────────────
 function selectArea(key) {
   activeArea = key;
   render7ASubtabs();
@@ -485,75 +536,131 @@ function selectArea(key) {
 }
 
 function editPct(key) {
-  const a = AREAS.find(x=>x.key===key);
-  const v = prompt(`Update progress for ${a.name} (0–100):\n更新「${a.cn}」的進度 (0–100):`, state.pct[key]);
+  var a = null;
+  for (var i = 0; i < AREAS.length; i++) { if (AREAS[i].key === key) { a = AREAS[i]; break; } }
+  if (!a) return;
+  var v = prompt('Update progress for ' + a.name + ' (0–100):\n更新「' + a.cn + '」的進度 (0–100):', state.pct[key]);
   if (v !== null) {
-    const n = Math.min(100,Math.max(0,parseInt(v)||0));
+    var n = parseInt(v);
+    if (isNaN(n)) n = 0;
+    n = Math.min(100, Math.max(0, n));
     state.pct[key] = n;
-    saveState(); render7ASubtabs(); render7ADetail(); renderGoals(); updateStats();
-    showToast(`${a.icon} Updated to ${n}% · 已更新至 ${n}%`);
+    saveState();
+    render7ASubtabs();
+    render7ADetail();
+    renderGoals();
+    updateStats();
+    showToast(a.icon + ' Updated to ' + n + '% · 已更新至 ' + n + '%');
   }
 }
-function setMood(btn,m) {
-  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel'); state.mood = m;
-}
-function saveReflection() {
-  const r1=document.getElementById('r1').value.trim();
-  const r2=document.getElementById('r2').value.trim();
-  const r3=document.getElementById('r3').value.trim();
-  const r4=document.getElementById('r4').value.trim();
-  if (!r1&&!r2&&!r3&&!r4) { showToast('Please write at least one reflection · 請填寫至少一個反思'); return; }
-  state.reflections.push({
-    date: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
-    mood:state.mood, r1, r2, r3, r4
-  });
-  saveState(); renderPastReflections();
-  ['r1','r2','r3','r4'].forEach(id => document.getElementById(id).value='');
-  showToast('Reflection saved! Well done, Ambrose 🙏 · 反思已儲存！');
-}
-function openTaskModal() { document.getElementById('taskModal').classList.add('open'); }
-function openWinModal()  { document.getElementById('winModal').classList.add('open'); }
-function closeModal(id)  { document.getElementById(id).classList.remove('open'); }
-function saveTask() {
-  const time = document.getElementById('taskTime').value.trim()||'Anytime';
-  const task = document.getElementById('taskName').value.trim();
-  const area = document.getElementById('taskArea').value;
-  if (!task) { showToast('Please enter a task name · 請輸入任務名稱'); return; }
-  state.tasks.push({time,task,area,done:false});
-  saveState(); renderTasks(); closeModal('taskModal');
-  document.getElementById('taskTime').value='';
-  document.getElementById('taskName').value='';
-  showToast('Task added! · 任務已新增！');
-}
-function saveWin() {
-  const text = document.getElementById('winText').value.trim();
-  if (!text) { showToast('Please enter your win · 請輸入您的勝利'); return; }
-  state.wins.push({text,done:true});
-  saveState(); renderWins(); closeModal('winModal');
-  document.getElementById('winText').value='';
-  showToast('🎉 Win logged! · 勝利已記錄！');
-}
-function showTab(name) {
-  ['7a','today','reflect','goals'].forEach(t => {
-    const el = document.getElementById('tab-'+t);
-    if (el) el.style.display = t===name ? 'block' : 'none';
-  });
-  document.querySelectorAll('.tab').forEach((btn,i) => {
-    btn.classList.toggle('active', ['7a','today','reflect','goals'][i]===name);
-  });
-  if (name === '7a') { render7ASubtabs(); render7ADetail(); }
-}
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2800);
+
+function toggleTask(i) {
+  state.tasks[i].done = !state.tasks[i].done;
+  saveState(); renderTasks(); updateStats();
+  if (state.tasks[i].done) showToast('Task done! · 任務完成！✓');
 }
 
-loadState(); checkNewDay(); renderAll();
-document.querySelectorAll('.modal-bg').forEach(m => {
-  m.addEventListener('click', e => { if (e.target===m) m.classList.remove('open'); });
+function toggleWin(i) {
+  state.wins[i].done = !state.wins[i].done;
+  saveState(); renderWins(); updateStats();
+  if (state.wins[i].done) showToast('🎉 Win celebrated! · 勝利慶祝！');
+}
+
+function toggleDay(i) {
+  state.days[i] = !state.days[i];
+  saveState(); renderDays(); updateStats();
+}
+
+function setMood(btn, m) {
+  var btns = document.querySelectorAll('.mood-btn');
+  for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('sel'); }
+  btn.classList.add('sel');
+  state.mood = m;
+}
+
+function saveReflection() {
+  var r1 = document.getElementById('r1').value.trim();
+  var r2 = document.getElementById('r2').value.trim();
+  var r3 = document.getElementById('r3').value.trim();
+  var r4 = document.getElementById('r4').value.trim();
+  if (!r1 && !r2 && !r3 && !r4) { showToast('Please write at least one · 請填寫至少一項'); return; }
+  var now = new Date();
+  state.reflections.push({
+    date: now.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }),
+    mood: state.mood, r1:r1, r2:r2, r3:r3, r4:r4
+  });
+  saveState(); renderPastReflections();
+  document.getElementById('r1').value = '';
+  document.getElementById('r2').value = '';
+  document.getElementById('r3').value = '';
+  document.getElementById('r4').value = '';
+  showToast('Reflection saved! Well done, Ambrose 🙏');
+}
+
+// ── TABS ──────────────────────────────────────────────
+function showTab(name) {
+  var tabs = ['7a','today','reflect','goals'];
+  for (var i = 0; i < tabs.length; i++) {
+    var el = document.getElementById('tab-' + tabs[i]);
+    if (el) el.style.display = (tabs[i] === name) ? 'block' : 'none';
+    var btn = document.getElementById('maintab-' + tabs[i]);
+    if (btn) btn.classList.toggle('active', tabs[i] === name);
+  }
+}
+
+// ── MODALS ────────────────────────────────────────────
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function saveTask() {
+  var time = document.getElementById('taskTime').value.trim() || 'Anytime';
+  var task = document.getElementById('taskName').value.trim();
+  var area = document.getElementById('taskArea').value;
+  if (!task) { showToast('Please enter a task name · 請輸入任務名稱'); return; }
+  state.tasks.push({ time:time, task:task, area:area, done:false });
+  saveState(); renderTasks(); closeModal('taskModal');
+  document.getElementById('taskTime').value = '';
+  document.getElementById('taskName').value = '';
+  showToast('Task added! · 任務已新增！');
+}
+
+function saveWin() {
+  var text = document.getElementById('winText').value.trim();
+  if (!text) { showToast('Please enter your win · 請輸入您的勝利'); return; }
+  state.wins.push({ text:text, done:true });
+  saveState(); renderWins(); updateStats(); closeModal('winModal');
+  document.getElementById('winText').value = '';
+  showToast('🎉 Win logged! · 勝利已記錄！');
+}
+
+// ── TOAST ─────────────────────────────────────────────
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2800);
+}
+
+// ── MODAL CLOSE ON BG CLICK ───────────────────────────
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal-bg')) {
+    e.target.classList.remove('open');
+  }
 });
+
+// ── INIT ──────────────────────────────────────────────
+loadState();
+checkNewDay();
+renderHeader();
+renderQuote();
+render7ASubtabs();
+render7ADetail();
+renderTasks();
+renderWins();
+renderDays();
+renderGoals();
+renderPastReflections();
+updateStats();
 </script>
 </body>
 </html>
