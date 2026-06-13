@@ -535,12 +535,14 @@ function saveWin() {
   showToast('🎉 Win logged! · 勝利已記錄！');
 }
 function showTab(name) {
-  ['today','7a','reflect','goals'].forEach(t => {
-    document.getElementById('tab-'+t).style.display = t===name?'block':'none';
+  ['7a','today','reflect','goals'].forEach(t => {
+    const el = document.getElementById('tab-'+t);
+    if (el) el.style.display = t===name ? 'block' : 'none';
   });
   document.querySelectorAll('.tab').forEach((btn,i) => {
     btn.classList.toggle('active', ['7a','today','reflect','goals'][i]===name);
   });
+  if (name === '7a') { render7ASubtabs(); render7ADetail(); }
 }
 function showToast(msg) {
   const t = document.getElementById('toast');
