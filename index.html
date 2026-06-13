@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ambrose 7A Life Cockpit | 人生駕駛艙</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a1628; color: #e8f4f8; min-height: 100vh; }
+
+  /* HEADER */
+  .header { background: linear-gradient(135deg, #0a2540 0%, #0e4d6b 50%, #0a7a6b 100%); padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; }
+  .header-title { font-size: 22px; font-weight: 600; color: #fff; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 2px; }
+  .header-date { font-size: 12px; color: rgba(255,255,255,0.6); text-align: right; }
+  .verse { font-size: 12px; font-style: italic; color: rgba(255,255,255,0.6); margin-top: 0.75rem; border-left: 3px solid #1a9b7a; padding-left: 10px; }
+  .stats-row { display: flex; gap: 12px; margin-top: 1rem; flex-wrap: wrap; }
+  .stat-pill { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 14px; text-align: center; }
+  .stat-num { font-size: 20px; font-weight: 600; color: #5dd6c0; }
+  .stat-label { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 1px; }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 1.25rem; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media (max-width: 700px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  /* SECTION LABEL */
+  .sec-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: #5dd6c0; text-transform: uppercase; margin: 1.25rem 0 0.6rem; }
+
+  /* CARDS */
+  .card { background: #0f2035; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; }
+
+  /* QUOTE */
+  .quote-card { background: linear-gradient(135deg, #0a2540, #0a3d2a); border: 1px solid rgba(26,155,122,0.3); border-radius: 12px; padding: 0.9rem 1.1rem; margin-bottom: 0.5rem; }
+  .quote-text { font-size: 13px; font-style: italic; color: #a8d8cf; line-height: 1.6; }
+
+  /* 7A CARDS */
+  .a-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .a-card { background: #0f2035; border-left: 4px solid; border-top: 1px solid rgba(255,255,255,0.07); border-right: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07); border-radius: 0 12px 12px 0; padding: 0.9rem 1rem; cursor: pointer; transition: background 0.2s; }
+  .a-card:hover { background: #162d47; }
+  .a-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+  .a-card-name { font-size: 13px; font-weight: 600; color: #e8f4f8; }
+  .a-card-cn { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 1px; }
+  .a-card-pct { font-size: 20px; font-weight: 700; }
+  .prog-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1); overflow: hidden; margin-bottom: 6px; }
+  .prog-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+  .a-card-goal { font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+
+  /* TIMEBOX */
+  .tb-list { display: flex; flex-direction: column; gap: 6px; }
+  .tb-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 12px; cursor: pointer; transition: opacity 0.2s; }
+  .tb-item.done { opacity: 0.4; text-decoration: line-through; }
+  .tb-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .tb-time { font-weight: 600; color: #5dd6c0; min-width: 75px; font-size: 11px; }
+  .tb-task { flex: 1; color: #c8e0e8; }
+  .tb-check { font-size: 14px; color: #1a9b7a; }
+
+  /* WINS */
+  .wins-list { display: flex; flex-direction: column; gap: 6px; }
+  .win-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 12px; color: #c8e0e8; transition: all 0.2s; }
+  .win-item.done { background: rgba(26,155,122,0.15); border-color: rgba(26,155,122,0.3); color: #5dd6c0; }
+  .win-circle { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; font-size: 11px; transition: all 0.2s; }
+  .win-circle.done { background: #1a9b7a; border-color: #1a9b7a; color: white; }
+
+  /* DAYS */
+  .days-row { display: flex; gap: 6px; justify-content: space-between; }
+  .day-dot { flex: 1; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; color: rgba(255,255,255,0.4); transition: all 0.2s; }
+  .day-dot.today { background: #0e4d6b; border-color: #5dd6c0; color: #5dd6c0; }
+  .day-dot.checked { background: #1a9b7a; border-color: #1a9b7a; color: white; }
+
+  /* REFLECTION */
+  .reflect-group { margin-bottom: 10px; }
+  .reflect-label { font-size: 11px; color: #5dd6c0; margin-bottom: 4px; font-weight: 600; }
+  textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; color: #e8f4f8; font-size: 13px; font-family: inherit; resize: vertical; min-height: 64px; transition: border-color 0.2s; }
+  textarea:focus { outline: none; border-color: #5dd6c0; }
+  textarea::placeholder { color: rgba(255,255,255,0.25); }
+
+  /* MOOD */
+  .mood-row { display: flex; gap: 6px; margin-bottom: 12px; }
+  .mood-btn { font-size: 20px; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; cursor: pointer; transition: all 0.2s; }
+  .mood-btn.sel { border-color: #5dd6c0; background: rgba(93,214,192,0.15); }
+
+  /* BUTTONS */
+  .btn { font-size: 12px; padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #c8e0e8; cursor: pointer; margin-top: 8px; width: 100%; transition: all 0.2s; }
+  .btn:hover { background: rgba(255,255,255,0.07); }
+  .btn-save { background: linear-gradient(135deg, #0e4d6b, #1a9b7a); border: none; color: white; font-weight: 600; }
+  .btn-save:hover { opacity: 0.9; }
+
+  /* PROGRESS RING */
+  .ring-container { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; text-align: center; }
+
+  /* FOOTER */
+  .footer { text-align: center; padding: 1.5rem; font-size: 11px; color: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.06); margin-top: 1.5rem; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .tab { font-size: 12px; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; }
+  .tab.active { background: #0e4d6b; border-color: #5dd6c0; color: #5dd6c0; }
+
+  /* MODAL */
+  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; }
+  .modal-bg.open { display: flex; }
+  .modal { background: #0f2035; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; width: 90%; max-width: 440px; }
+  .modal h3 { font-size: 16px; margin-bottom: 1rem; color: #5dd6c0; }
+  .modal input, .modal select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; color: #e8f4f8; font-size: 13px; font-family: inherit; margin-bottom: 8px; }
+  .modal-btns { display: flex; gap: 8px; margin-top: 8px; }
+  .modal-btns .btn { margin: 0; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #1a9b7a; color: white; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 200; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">✈️ Ambrose 7A Life Cockpit</div>
+      <div class="header-sub">人生駕駛艙 · Aging Well · Living Fully · Leaving a Legacy</div>
+    </div>
+    <div class="header-date" id="headerDate"></div>
+  </div>
+  <div class="verse">"Whatever your hand finds to do, do it with all your might." — Ecclesiastes 9:10 · 傳道書 9:10</div>
+  <div class="stats-row">
+    <div class="stat-pill"><div class="stat-num" id="statOverall">0%</div><div class="stat-label">Overall · 整體</div></div>
+    <div class="stat-pill"><div class="stat-num" id="statStreak">1</div><div class="stat-label">Day streak · 連續</div></div>
+    <div class="stat-pill"><div class="stat-num" id="statWins">0</div><div class="stat-label">Wins today · 今日勝利</div></div>
+    <div class="stat-pill"><div class="stat-num" id="statTasks">0</div><div class="stat-label">Tasks left · 待完成</div></div>
+    <div class="stat-pill"><div class="stat-num" id="statDays">0</div><div class="stat-label">Days to goal · 目標天數</div></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- DAILY QUOTE -->
+  <div class="quote-card" id="quoteCard"></div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('today')">Today · 今日</button>
+    <button class="tab" onclick="showTab('7a')">7A Progress · 七大進度</button>
+    <button class="tab" onclick="showTab('reflect')">Reflection · 反思</button>
+    <button class="tab" onclick="showTab('goals')">Goals · 目標</button>
+  </div>
+
+  <!-- TAB: TODAY -->
+  <div id="tab-today">
+    <div class="grid2">
+      <div>
+        <div class="sec-label">⏱ Today's Timeboxes · 今日時間盒</div>
+        <div class="card">
+          <div class="tb-list" id="tbList"></div>
+          <button class="btn" onclick="openTaskModal()">+ Add task · 加任務</button>
+        </div>
+      </div>
+      <div>
+        <div class="sec-label">🏆 Small Wins · 小小勝利</div>
+        <div class="card">
+          <div class="wins-list" id="winsList"></div>
+          <button class="btn" onclick="openWinModal()">+ Log a win · 記錄勝利</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">📅 Weekly Check-in · 本週出勤</div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span style="font-size:13px; color:rgba(255,255,255,0.5);">Click to mark a day · 點擊記錄出勤</span>
+        <span style="font-size:18px; font-weight:700; color:#5dd6c0;" id="streakLabel">1 day</span>
+      </div>
+      <div class="days-row" id="daysRow"></div>
+    </div>
+  </div>
+
+  <!-- TAB: 7A -->
+  <div id="tab-7a" style="display:none">
+    <div class="sec-label">🎯 Seven Areas · 七大生命領域 <span style="color:rgba(255,255,255,0.35); font-size:10px; text-transform:none; letter-spacing:0;">(Click a card to update progress · 點擊卡片更新進度)</span></div>
+    <div class="a-grid" id="aGrid"></div>
+  </div>
+
+  <!-- TAB: REFLECT -->
+  <div id="tab-reflect" style="display:none">
+    <div class="sec-label">✍️ Daily Reflection · 每日反思</div>
+    <div class="card">
+      <div style="margin-bottom:12px;">
+        <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:8px;">How do you feel today? · 今天狀態：</div>
+        <div class="mood-row" id="moodRow">
+          <button class="mood-btn" onclick="setMood(this,'💪')">💪</button>
+          <button class="mood-btn" onclick="setMood(this,'😊')">😊</button>
+          <button class="mood-btn" onclick="setMood(this,'😐')">😐</button>
+          <button class="mood-btn" onclick="setMood(this,'😓')">😓</button>
+          <button class="mood-btn" onclick="setMood(this,'🙏')">🙏</button>
+          <button class="mood-btn" onclick="setMood(this,'🔥')">🔥</button>
+        </div>
+      </div>
+      <div class="reflect-group">
+        <div class="reflect-label">🌿 Grateful for · 感恩：</div>
+        <textarea id="r1" placeholder="Today I am grateful for... · 今天我感恩..."></textarea>
+      </div>
+      <div class="reflect-group">
+        <div class="reflect-label">💡 One lesson · 一個功課：</div>
+        <textarea id="r2" placeholder="Today I learned... · 今天我學到..."></textarea>
+      </div>
+      <div class="reflect-group">
+        <div class="reflect-label">🎯 Tomorrow's focus · 明日焦點：</div>
+        <textarea id="r3" placeholder="Tomorrow I will focus on... · 明天我要專注..."></textarea>
+      </div>
+      <div class="reflect-group">
+        <div class="reflect-label">🙏 Prayer · 禱告：</div>
+        <textarea id="r4" placeholder="Lord, today I bring to you... · 主啊，今天我帶到你面前..."></textarea>
+      </div>
+      <button class="btn btn-save" onclick="saveReflection()">Save reflection · 儲存反思 ✓</button>
+    </div>
+
+    <div class="sec-label">📖 Past Reflections · 過往反思</div>
+    <div id="pastReflections"></div>
+  </div>
+
+  <!-- TAB: GOALS -->
+  <div id="tab-goals" style="display:none">
+    <div class="sec-label">🌟 Audacious Goals · 宏大目標</div>
+    <div id="goalsList"></div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  ✈️ Ambrose 7A Life Cockpit · 人生駕駛艙 · Built with faith, purpose & AI · 
+  "Aging Well. Living Fully. Leaving a Legacy." · 「活好·愛深·傳承有道」
+</div>
+
+<!-- MODALS -->
+<div class="modal-bg" id="taskModal">
+  <div class="modal">
+    <h3>+ Add Timebox Task · 新增時間盒任務</h3>
+    <input type="text" id="taskTime" placeholder="Time · 時間 (e.g. 9:00–10:00)">
+    <input type="text" id="taskName" placeholder="Task · 任務名稱">
+    <select id="taskArea">
+      <option value="aging">🏃 Aging Well</option>
+      <option value="art">🎵 Artistry</option>
+      <option value="autism">💙 Autism Awesome</option>
+      <option value="ai">🤖 AI Empowered Impact</option>
+      <option value="jesus">✝️ Apprentices of Jesus</option>
+      <option value="auth">✍️ Authorship</option>
+      <option value="farm">🌱 Abundance Urban Farming</option>
+    </select>
+    <div class="modal-btns">
+      <button class="btn btn-save" onclick="saveTask()">Add · 新增</button>
+      <button class="btn" onclick="closeModal('taskModal')">Cancel · 取消</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="winModal">
+  <div class="modal">
+    <h3>🏆 Log a Win · 記錄勝利</h3>
+    <input type="text" id="winText" placeholder="What did you accomplish? · 您完成了什麼？">
+    <div class="modal-btns">
+      <button class="btn btn-save" onclick="saveWin()">Celebrate! · 慶祝！🎉</button>
+      <button class="btn" onclick="closeModal('winModal')">Cancel · 取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────
+const AREAS = [
+  { key:'aging', name:'Aging Well',              cn:'活好每天',   color:'#0e9ab5', icon:'🏃',
+    goal:'Gym 2x/week · Daily walks after meals · Blood sugar control · Body-mind-spirit integration',
+    audacious:'Run a 5K race by December 2026. Reduce HbA1c to below 7.0 by end of 2026.' },
+  { key:'art',   name:'Artistry',                cn:'藝術創作',   color:'#9b59b6', icon:'🎵',
+    goal:'Piano 15min/day · Fingerstyle guitar · English calligraphy weekly',
+    audacious:'Perform one jazz piece publicly by mid-2027. Complete a calligraphy portfolio of 12 works.' },
+  { key:'autism',name:'Autism Awesome',          cn:'自閉症同行', color:'#2176c7', icon:'💙',
+    goal:"Sons' wellbeing · Hostel community vision · Trust fund planning · Advocacy",
+    audacious:'Establish a legal trust fund for Yat Hin and Hon Shan by end of 2026. Begin hostel feasibility study.' },
+  { key:'ai',    name:'AI Empowered Impact',     cn:'AI賦能商業', color:'#e07b1a', icon:'🤖',
+    goal:'Landing page live · Make.com & n8n automation · 5 SME clients · Vibe coding apps',
+    audacious:'Serve 10 paying SME clients by end of 2026. Launch one AI automation course for Cantonese speakers.' },
+  { key:'jesus', name:'Apprentices of Jesus',    cn:'耶穌學徒',   color:'#c9973f', icon:'✝️',
+    goal:'Daily devotion · Disciple 1–2 people · BNO Christian community · Spiritual formation',
+    audacious:'Disciple 3 people deeply by end of 2027. Launch a monthly discipleship gathering for HK immigrants in Southampton.' },
+  { key:'auth',  name:'Authorship',              cn:'數碼著作',   color:'#0e8a7a', icon:'✍️',
+    goal:'Post 3x/week on LinkedIn · KDP book outline · Online course · Bilingual content',
+    audacious:'Publish first KDP book by end of 2026. Reach 1,000 LinkedIn followers by December 2026.' },
+  { key:'farm',  name:'Abundance Urban Farming', cn:'城市農耕',   color:'#4a8c1a', icon:'🌱',
+    goal:'Weekly planting · Document farming journey · Autism farm vision · Permaculture learning',
+    audacious:'Establish a productive container garden by summer 2026. Draft autism community farm proposal by 2027.' }
+];
+
+const QUOTES = [
+  "The journey of a thousand miles begins with a single step. · 千里之行，始於足下。",
+  "Small daily improvements over time lead to stunning results. · 每天微小的進步，累積成驚人的成就。",
+  "You don't have to be great to start, but you have to start to be great.",
+  "Every expert was once a beginner. Keep going, Ambrose. · 每位專家都曾是初學者。繼續前行。",
+  "The best time to plant a tree was 20 years ago. The second best time is now. · 種樹最好的時機是二十年前，其次是現在。",
+  "Faithful in small things — great things will follow. · 小事忠心，大事必成。",
+  "Progress, not perfection. · 進步，而非完美。",
+  "I can do all things through Christ who strengthens me. · 我靠著那加給我力量的，凡事都能做。— Philippians 4:13",
+  "Well done, good and faithful servant. · 好，你這又良善又忠心的僕人。— Matthew 25:23",
+  "Trust in the Lord with all your heart. · 你要專心仰賴耶和華。— Proverbs 3:5"
+];
+
+const DEFAULT_TASKS = [
+  { time:'6:00–6:30', task:'Morning devotion & prayer · 晨禱默想', area:'jesus', done:false },
+  { time:'6:30–7:00', task:'Exercise / walk after breakfast · 運動散步', area:'aging', done:false },
+  { time:'9:00–10:30', task:'AI Empowered Impact work block · AI商業工作', area:'ai', done:false },
+  { time:'10:30–10:45', task:'Piano / guitar practice · 鋼琴或結他練習', area:'art', done:false },
+  { time:'2:00–3:30', task:'Authorship · write & post · 寫作發佈', area:'auth', done:false },
+  { time:'4:00–4:30', task:'Urban farming · garden check · 農耕巡視', area:'farm', done:false },
+  { time:'8:00–8:15', task:'Daily reflection · 每日反思', area:'jesus', done:false }
+];
+
+const DEFAULT_WINS = [
+  { text:'Completed morning devotion · 完成晨禱', done:false },
+  { text:'Walked 20 minutes · 散步20分鐘', done:false },
+  { text:'Made progress on AI landing page · AI登陸頁面進展', done:false }
+];
+
+// ── STATE ─────────────────────────────────────────────
+let state = {
+  pct:       { aging:25, art:15, autism:20, ai:30, jesus:35, auth:10, farm:20 },
+  tasks:     JSON.parse(JSON.stringify(DEFAULT_TASKS)),
+  wins:      JSON.parse(JSON.stringify(DEFAULT_WINS)),
+  days:      [false,false,false,false,false,false,false],
+  mood:      '',
+  reflections: [],
+  lastDate:  ''
+};
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('ambrose7a');
+    if (s) state = JSON.parse(s);
+  } catch(e) {}
+}
+
+function saveState() {
+  try { localStorage.setItem('ambrose7a', JSON.stringify(state)); } catch(e) {}
+}
+
+function checkNewDay() {
+  const today = new Date().toDateString();
+  if (state.lastDate !== today) {
+    if (state.lastDate) {
+      state.tasks = JSON.parse(JSON.stringify(DEFAULT_TASKS));
+      state.wins  = JSON.parse(JSON.stringify(DEFAULT_WINS));
+      state.mood  = '';
+    }
+    state.lastDate = today;
+    saveState();
+  }
+}
+
+// ── RENDER ────────────────────────────────────────────
+function renderAll() {
+  renderHeader();
+  renderQuote();
+  render7A();
+  renderTasks();
+  renderWins();
+  renderDays();
+  renderGoals();
+  renderPastReflections();
+  updateStats();
+}
+
+function renderHeader() {
+  const now = new Date();
+  document.getElementById('headerDate').innerHTML =
+    now.toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) +
+    '<br><span style="font-size:11px; color:rgba(255,255,255,0.4)">Southampton, UK 🇬🇧</span>';
+}
+
+function renderQuote() {
+  const q = QUOTES[new Date().getDay() % QUOTES.length];
+  document.getElementById('quoteCard').innerHTML =
+    `<div class="quote-text">💬 ${q}</div>`;
+}
+
+function render7A() {
+  document.getElementById('aGrid').innerHTML = AREAS.map(a => `
+    <div class="a-card" style="border-left-color:${a.color}" onclick="editPct('${a.key}')">
+      <div class="a-card-header">
+        <div>
+          <div class="a-card-name">${a.icon} ${a.name}</div>
+          <div class="a-card-cn">${a.cn}</div>
+        </div>
+        <div class="a-card-pct" style="color:${a.color}">${state.pct[a.key]}%</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${state.pct[a.key]}%; background:${a.color}"></div></div>
+      <div class="a-card-goal">${a.goal}</div>
+    </div>`).join('');
+}
+
+function renderTasks() {
+  document.getElementById('tbList').innerHTML = state.tasks.map((t,i) => {
+    const a = AREAS.find(x => x.key === t.area);
+    return `<div class="tb-item ${t.done?'done':''}" onclick="toggleTask(${i})">
+      <div class="tb-dot" style="background:${a?.color||'#888'}"></div>
+      <span class="tb-time">${t.time}</span>
+      <span class="tb-task">${t.task}</span>
+      ${t.done ? '<span class="tb-check">✓</span>' : ''}
+    </div>`;
+  }).join('');
+  updateStats();
+}
+
+function renderWins() {
+  document.getElementById('winsList').innerHTML = state.wins.map((w,i) => `
+    <div class="win-item ${w.done?'done':''}">
+      <div class="win-circle ${w.done?'done':''}" onclick="toggleWin(${i})">${w.done?'✓':''}</div>
+      <span>${w.text}</span>
+    </div>`).join('');
+  updateStats();
+}
+
+function renderDays() {
+  const labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const todayIdx = (new Date().getDay() + 6) % 7;
+  document.getElementById('daysRow').innerHTML = labels.map((d,i) => {
+    const cls = i === todayIdx ? 'today' : (state.days[i] ? 'checked' : '');
+    return `<div class="day-dot ${cls}" onclick="toggleDay(${i})">${d}</div>`;
+  }).join('');
+  const streak = state.days.filter(Boolean).length + 1;
+  document.getElementById('streakLabel').textContent = streak + (streak===1?' day':' days');
+}
+
+function renderGoals() {
+  document.getElementById('goalsList').innerHTML = AREAS.map(a => `
+    <div class="card" style="margin-bottom:10px; border-left:4px solid ${a.color}; border-radius:0 12px 12px 0;">
+      <div style="font-size:14px; font-weight:600; color:${a.color}; margin-bottom:6px;">${a.icon} ${a.name} · ${a.cn}</div>
+      <div style="font-size:12px; color:rgba(255,255,255,0.5); margin-bottom:6px;">Current focus · 現時焦點：</div>
+      <div style="font-size:13px; color:#c8e0e8; margin-bottom:8px;">${a.goal}</div>
+      <div style="font-size:12px; color:rgba(255,255,255,0.5); margin-bottom:4px;">🌟 Audacious goal · 宏大目標：</div>
+      <div style="font-size:13px; color:#5dd6c0;">${a.audacious}</div>
+      <div style="margin-top:10px;">
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.4); margin-bottom:4px;">
+          <span>Progress · 進度</span><span>${state.pct[a.key]}%</span>
+        </div>
+        <div class="prog-bar" style="height:7px;"><div class="prog-fill" style="width:${state.pct[a.key]}%; background:${a.color}"></div></div>
+      </div>
+    </div>`).join('');
+}
+
+function renderPastReflections() {
+  const el = document.getElementById('pastReflections');
+  if (!state.reflections.length) {
+    el.innerHTML = `<div class="card" style="color:rgba(255,255,255,0.35); font-size:13px;">No reflections saved yet · 尚未儲存任何反思</div>`;
+    return;
+  }
+  el.innerHTML = state.reflections.slice(-5).reverse().map(r => `
+    <div class="card" style="margin-bottom:10px;">
+      <div style="font-size:11px; color:#5dd6c0; margin-bottom:8px;">${r.date} ${r.mood}</div>
+      ${r.r1 ? `<div style="font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:2px;">🌿 Grateful · 感恩</div><div style="font-size:13px; color:#c8e0e8; margin-bottom:8px;">${r.r1}</div>` : ''}
+      ${r.r2 ? `<div style="font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:2px;">💡 Lesson · 功課</div><div style="font-size:13px; color:#c8e0e8; margin-bottom:8px;">${r.r2}</div>` : ''}
+      ${r.r3 ? `<div style="font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:2px;">🎯 Tomorrow · 明日</div><div style="font-size:13px; color:#c8e0e8; margin-bottom:8px;">${r.r3}</div>` : ''}
+      ${r.r4 ? `<div style="font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:2px;">🙏 Prayer · 禱告</div><div style="font-size:13px; color:#c8e0e8;">${r.r4}</div>` : ''}
+    </div>`).join('');
+}
+
+function updateStats() {
+  const avg = Math.round(Object.values(state.pct).reduce((s,v) => s+v, 0) / AREAS.length);
+  const streak = state.days.filter(Boolean).length + 1;
+  const wins = state.wins.filter(w => w.done).length;
+  const left = state.tasks.filter(t => !t.done).length;
+  const daysLeft = Math.max(0, Math.ceil((new Date('2034-01-01') - new Date()) / 86400000));
+  document.getElementById('statOverall').textContent = avg + '%';
+  document.getElementById('statStreak').textContent = streak;
+  document.getElementById('statWins').textContent = wins;
+  document.getElementById('statTasks').textContent = left;
+  document.getElementById('statDays').textContent = daysLeft.toLocaleString();
+}
+
+// ── ACTIONS ───────────────────────────────────────────
+function toggleTask(i) {
+  state.tasks[i].done = !state.tasks[i].done;
+  saveState(); renderTasks();
+  if (state.tasks[i].done) showToast('Task done! · 任務完成！✓');
+}
+
+function toggleWin(i) {
+  state.wins[i].done = !state.wins[i].done;
+  saveState(); renderWins();
+  if (state.wins[i].done) showToast('🎉 Win celebrated! · 勝利慶祝！');
+}
+
+function toggleDay(i) {
+  state.days[i] = !state.days[i];
+  saveState(); renderDays(); updateStats();
+}
+
+function editPct(key) {
+  const a = AREAS.find(x => x.key === key);
+  const v = prompt(`Update progress for ${a.name} (0–100):\n更新「${a.cn}」的進度 (0–100):`, state.pct[key]);
+  if (v !== null) {
+    const n = Math.min(100, Math.max(0, parseInt(v) || 0));
+    state.pct[key] = n;
+    saveState(); render7A(); renderGoals(); updateStats();
+    showToast(`${a.icon} Updated to ${n}% · 已更新至 ${n}%`);
+  }
+}
+
+function setMood(btn, m) {
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  state.mood = m;
+}
+
+function saveReflection() {
+  const r1 = document.getElementById('r1').value.trim();
+  const r2 = document.getElementById('r2').value.trim();
+  const r3 = document.getElementById('r3').value.trim();
+  const r4 = document.getElementById('r4').value.trim();
+  if (!r1 && !r2 && !r3 && !r4) { showToast('Please write at least one reflection · 請填寫至少一個反思'); return; }
+  state.reflections.push({
+    date: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
+    mood: state.mood, r1, r2, r3, r4
+  });
+  saveState(); renderPastReflections();
+  document.getElementById('r1').value = '';
+  document.getElementById('r2').value = '';
+  document.getElementById('r3').value = '';
+  document.getElementById('r4').value = '';
+  showToast('Reflection saved! Well done, Ambrose 🙏 · 反思已儲存！');
+}
+
+// ── MODALS ────────────────────────────────────────────
+function openTaskModal() { document.getElementById('taskModal').classList.add('open'); }
+function openWinModal()  { document.getElementById('winModal').classList.add('open'); }
+function closeModal(id)  { document.getElementById(id).classList.remove('open'); }
+
+function saveTask() {
+  const time = document.getElementById('taskTime').value.trim() || 'Anytime';
+  const task = document.getElementById('taskName').value.trim();
+  const area = document.getElementById('taskArea').value;
+  if (!task) { showToast('Please enter a task name · 請輸入任務名稱'); return; }
+  state.tasks.push({ time, task, area, done:false });
+  saveState(); renderTasks(); closeModal('taskModal');
+  document.getElementById('taskTime').value = '';
+  document.getElementById('taskName').value = '';
+  showToast('Task added! · 任務已新增！');
+}
+
+function saveWin() {
+  const text = document.getElementById('winText').value.trim();
+  if (!text) { showToast('Please enter your win · 請輸入您的勝利'); return; }
+  state.wins.push({ text, done:true });
+  saveState(); renderWins(); closeModal('winModal');
+  document.getElementById('winText').value = '';
+  showToast('🎉 Win logged! · 勝利已記錄！');
+}
+
+// ── TABS ──────────────────────────────────────────────
+function showTab(name) {
+  ['today','7a','reflect','goals'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach((btn,i) => {
+    btn.classList.toggle('active', ['today','7a','reflect','goals'][i] === name);
+  });
+}
+
+// ── TOAST ─────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── INIT ──────────────────────────────────────────────
+loadState();
+checkNewDay();
+renderAll();
+
+// Close modal on background click
+document.querySelectorAll('.modal-bg').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+</script>
+</body>
+</html>
