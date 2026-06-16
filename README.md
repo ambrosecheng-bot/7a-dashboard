@@ -1,79 +1,212 @@
-# ✈️ Ambrose 7A Life Cockpit
-### 人生駕駛艙 | Personal Life Dashboard
+# 與主同行——大使命門徒協作平台
+### *Apprentics of Jesus · Great Commission Discipleship Platform*
 
-> "Whatever your hand finds to do, do it with all your might." 
-> — Ecclesiastes 9:10 / 傳道書 9:10
-
----
-
-## What is this? / 這是什麼？
-
-This is my personal daily cockpit — a private dashboard 
-to navigate my life across seven strategic areas I call 
-the **7A Framework**.
-
-Just as a pilot uses a dashboard to fly a plane, 
-I use this to fly my life — with clarity, direction, 
-and daily momentum.
+🌐 **Live Site:** [https://ambrosecheng-bot.github.io/Apprentics-Jesus/](https://ambrosecheng-bot.github.io/Apprentics-Jesus/)
 
 ---
 
-## The 7A Framework / 七大生命領域
+## 🗺️ 專案簡介
 
-| # | Area | 領域 | Focus |
-|---|------|------|-------|
-| 1 | 🏃 Aging Well | 活好每天 | Health, fitness & diabetes management |
-| 2 | 🎵 Artistry | 藝術創作 | Jazz piano, guitar & calligraphy |
-| 3 | 💙 Autism Awesome | 自閉症同行 | Sons, hostel vision & trust fund |
-| 4 | 🤖 AI Empowered Impact | AI賦能商業 | AI automation for SMEs |
-| 5 | ✝️ Apprentices of Jesus | 耶穌學徒 | Discipleship & spiritual formation |
-| 6 | ✍️ Authorship | 數碼著作 | Writing, KDP publishing & social media |
-| 7 | 🌱 Abundance Urban Farming | 城市農耕 | Urban farming & autism community vision |
+「與主同行」是一個服務**全球華人門徒**的大使命協作平台——從修咸頓出發，覆蓋漢普郡、英國全境，以至普天之下凡有華人門徒的地方。
 
----
+平台由修咸頓華人基督教會（SCCC）同工發起建立，但其異象遠超過一間教會的邊界。它是一個**開放的、跨教會的、可倍增的**門訓資源平台，任何華人門訓者、教會同工或跟從耶穌的人，都可以使用、分享與貢獻。
 
-## Features / 功能
+平台以**耶穌自己的門訓方法**為藍本，整合聖經知識庫、門訓資源及同工協作功能，服務四類使用者：
 
-- 📊 **7A Progress Tracker** — Visual progress for each life area
-- ⏱️ **Daily Timeboxes** — Task management using time-boxing methodology
-- 🏆 **Small Wins Log** — Celebrate daily achievements
-- 📅 **Weekly Check-in** — Streak tracking and weekly rhythm
-- ✍️ **Daily Reflection** — Gratitude, lessons learned & tomorrow's focus
-- 🌅 **Daily Inspiration** — Rotating motivational quotes
-- 🌐 **Bilingual** — English and Traditional Chinese / 英文及繁體中文
+| 對象 | 說明 |
+|------|------|
+| 🌱 初信者 | 剛進入信仰的人，需要清晰的聖經根基 |
+| 🚶 受訓門徒 | 正在接受門訓的人，需要深化裝備 |
+| 🤝 事工同工 | 帶領小組或教會的工人，需要協作工具 |
+| 🏛️ 教會領袖 | 監督倍增事工的牧者與長執 |
+
+> *「你們去，使萬民作我的門徒……直到地極」——馬太福音 28:19–20*
 
 ---
 
-## Philosophy / 理念
+## 🌍 服務範圍與異象
 
-> I am not an expert in any of these seven areas.
-> I am a fellow traveller — learning, stumbling forward,
-> and looking for companions on the journey.
->
-> 我不是這七個領域的專家。
-> 我是一個同行者——學習、跌跌撞撞地前行，
-> 尋找同路人一起走這段旅程。
+本平台的視野跟隨大使命的地理框架逐層擴展：
 
----
+```
+修咸頓  →  漢普郡  →  英國全境  →  普天之下
+Southampton → Hampshire → UK → The Ends of the Earth
+```
 
-## Tech Stack / 技術
+**SCCC 是起點，不是終點。**
 
-- Pure HTML, CSS & JavaScript — no frameworks
-- Hosted free on GitHub Pages
-- Mobile responsive / 支援手機瀏覽
+這個平台所承載的門訓資源、聖經知識與跨教會協作精神，屬於每一位願意「使萬民作主門徒」的華人基督徒。無論你在英國哪座城市，或在世界哪個角落，都歡迎你使用、分享、並參與建造。
 
 ---
 
-## About Ambrose / 關於我
+## ✨ 主要功能
 
-Hong Kong-born CPA · Southampton, UK · 
-Father of two autistic sons · Lifelong Christian · 
-AI learner · Urban farmer · Writer in progress
+### 📖 聖經知識庫
+- **30條條目，涵蓋九站門徒進程**——從「黑暗與光明」到「儆醒與終末盼望」
+- 每條含 **BDAG 標準希臘文詞彙解析**、門訓原則及今日應用
+- 即時搜尋、按站篩選
+- 點擊展開完整 Modal 詳覽，適合個人查考與小組討論
 
-*"Aging Well. Living Fully. Leaving a Legacy."*
-*「活好·愛深·傳承有道」*
+### 🗂️ 九站門徒進程
+
+平台以耶穌教導的內在進程為骨架，純以聖經語言呈現，無文化理論框架。
+
+| 站次 | 名稱 | 涵蓋主題 |
+|------|------|---------|
+| 第一站 | 黑暗與光明 | 天國、悔改、永生 |
+| 第二站 | 蒙召與回應 | 呼召、信心、重生 |
+| 第三站 | 捨棄與跟從 | 捨己、背十字架、婚姻與家庭 |
+| 第四站 | 與主同行受訓 | 同在、學效、禱告、禁食、謙卑、清心 |
+| 第五站 | 試煉與幽谷 | 饒恕、憐憫、受苦、跌倒與復和 |
+| 第六站 | 深處的更新 | 聖靈、等候得力、忠心 |
+| 第七站 | 天國的群體生命 | 愛神愛人、彼此相愛、合一、和平 |
+| 第八站 | 差遣與倍增 | 差遣與回報、一個影響一個 |
+| 第九站 | 儆醒與終末盼望 | 末世警醒、審判與復活 |
+
+### 🌏 三語支援
+- **繁體中文 · 簡體中文 · English** 即時切換
+- 介面、知識庫條目、篩選標籤全面三語化
+- 語言設定以 `localStorage` 持久保存——切換一次，長期記憶
+
+### 🎨 視覺設計
+- 加利利海邊羊皮紙古典美學（古代近東色調）
+- 動態英雄區（Ken Burns 緩慢放大動畫）
+- 全響應式設計，桌面與手機均可流暢使用
 
 ---
 
-*Private personal dashboard · Built with Claude AI · 
-Updated regularly as the journey unfolds*
+## 🏗️ 技術架構
+
+| 項目 | 說明 |
+|------|------|
+| **部署平台** | GitHub Pages（全靜態，無後端） |
+| **核心技術** | 純 HTML / CSS / JavaScript（單頁應用 SPA） |
+| **字體** | Noto Serif TC、Noto Sans TC、IM Fell English |
+| **主色調** | 羊皮紙米黃 `#F2E8D5`、琥珀金 `#C9A84C`、石牆棕 `#5C4A32` |
+| **語言切換** | 繁簡字符對照 + localStorage 持久化 |
+| **聖經詞彙** | BDAG 標準希臘文詞彙系統 |
+
+---
+
+## 📁 檔案結構
+
+```
+Apprentics-Jesus/
+│
+├── index.html          # 主應用程式（單一 HTML 檔案 SPA）
+└── README.md           # 本文件
+```
+
+> 整個平台以**單一 HTML 檔案**建構，便於任何教會或個人部署、分叉與自定義，無需後端服務或技術支援。
+
+---
+
+## 🚀 本地運行
+
+```bash
+# 克隆 Repository
+git clone https://github.com/ambrosecheng-bot/Apprentics-Jesus.git
+
+# 進入目錄
+cd Apprentics-Jesus
+
+# 以任意瀏覽器開啟 index.html
+open index.html   # macOS
+start index.html  # Windows
+```
+
+無需安裝任何依賴套件，直接在瀏覽器開啟即可運行。
+
+---
+
+## 🌱 事工背景與核心理念
+
+### 起源
+本平台由**修咸頓華人基督教會（SCCC · Southampton Chinese Christian Church）**同工發起，作為履行大使命的實踐工具。SCCC 成立於 1996 年，附屬海外華人基督教使命（COCM），以三語（粵語 / 普通話 / 英語）服務英國南部的華人群體。
+
+### 核心異象
+> **「一個影響一個」**——以耶穌的倍增模式，建立可複製、跨教會、跨世代的門訓鏈
+
+這個異象不屬於任何一間教會，而是屬於每一位願意成為門訓者的人。提摩太後書 2:2 的四代鏈條——**保羅→提摩太→可靠的人→能教導別人的人**——是本平台設計的根本邏輯。
+
+### 設計原則
+- **工具服務葡萄樹，而非取代葡萄樹**——平台輔助關係，不取代關係
+- **關係先於任務，同在先於事工**——馬可福音 3:14 的次序
+- **簡單、可複製、跨代際傳承**——任何門徒都能使用，任何教會都能採用
+- **從修咸頓出發，以普天之下為終**——地理優先，逐步擴展
+
+### 服務群體重點
+本平台對英國香港移民群體有特別的關注與語境化。第一代移民在異鄉重建身份、家庭與信仰群體的經歷，與第一世紀門徒在羅馬帝國統治下的生命處境，有深刻的神學平行——這個平台嘗試在這個平行點上，讓聖經說話。
+
+---
+
+## 🗺️ 發展路線圖
+
+### 已完成
+- [x] 首頁英雄區（加利利海邊意象 + Ken Burns 動畫）
+- [x] 聖經知識庫（30條 / 九站 / 三語 / 希臘文詞彙）
+- [x] 即時搜尋與按站篩選
+- [x] 三語切換（繁 / 簡 / EN）+ localStorage 持久化
+
+### 進行中 / 規劃中
+- [ ] 門訓資源頁（文章、影片、工具下載）
+- [ ] 同工協作入口（連結 Notion 協作後台）
+- [ ] 關於我們頁面（平台使命、團隊、聯絡）
+- [ ] 聖經知識庫語義搜尋（AI 輔助）
+- [ ] 新信徒里程碑追蹤系統
+- [ ] 跨教會同工網絡（英國各城市華人教會）
+- [ ] 手機 PWA 支援
+
+---
+
+## 🤝 參與貢獻
+
+這個平台是為**所有華人門徒**而建的，不是一間教會的私有工具。
+
+如果你是：
+- 英國（或全球）華人教會的牧者或同工
+- 正在帶領門訓小組的弟兄姊妹
+- 有心貢獻內容、翻譯或技術支援的門徒
+
+歡迎透過以下方式參與：
+
+- **提交 Issue**——報告問題或建議新功能
+- **提交 Pull Request**——貢獻內容或代碼改進
+- **聯絡我們**——討論跨教會協作
+
+📧 **聯絡：透過本 Repository 的 Issues 頁面**
+
+---
+
+## 📜 版權與使用聲明
+
+本平台代碼以**開源方式**提供，歡迎任何華人教會或門訓事工自由使用、部署與改編，但請：
+1. 保留原始事工來源說明
+2. 不作商業用途
+3. 以相同精神開放分享
+
+聖經引文採用**中文和合本（CUV）**及 **ESV（English Standard Version）**。希臘文詞彙解析參考 **BDAG（A Greek-English Lexicon of the New Testament）**標準。
+
+---
+
+## 📍 關於發起教會 SCCC
+
+**修咸頓華人基督教會**
+Southampton Chinese Christian Church · 成立於 1996 年
+三語聚會（粵語 / 普通話 / 英語）
+附屬海外華人基督教使命（COCM）
+香港準備好教會網絡（Hong Kong Ready Churches Network）成員
+
+🌐 [www.sccc.org.uk](https://www.sccc.org.uk)
+
+---
+
+*與主同行，直到地極。*
+*Walking with the Lord, to the ends of the earth.*
+
+---
+
+<div align="center">
+  <sub>從修咸頓出發 · 漢普郡 · 英國全境 · 普天之下</sub><br>
+  <sub>Starting from Southampton · Hampshire · Across the UK · To the Ends of the Earth</sub>
+</div>
