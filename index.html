@@ -160,13 +160,15 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
     <button class="tab"        id="maintab-goals"   onclick="showTab('goals')">Goals · 目標</button>
   </div>
 
+  <!-- 7A LABEL — always visible, outside any tab panel -->
+  <div id="label-7a" style="display:none;align-items:center;gap:10px;padding:10px 16px;background:rgba(93,214,192,0.12);border:2px solid rgba(93,214,192,0.4);border-radius:10px;margin-bottom:1rem;">
+    <span style="font-size:14px;font-weight:800;letter-spacing:0.08em;color:#5dd6c0;text-transform:uppercase;">🎯 Seven Areas · 七大生命領域</span>
+    <span style="color:rgba(255,255,255,0.5);font-size:13px;font-weight:400;">— Click an area below · 點擊下方選擇領域</span>
+  </div>
+
   <!-- TAB: 7A -->
   <div id="tab-7a" style="display:none;">
     <div class="a-subtabs" id="aSubtabs"></div>
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(93,214,192,0.12);border:2px solid rgba(93,214,192,0.4);border-radius:10px;margin-bottom:1rem;">
-      <span style="font-size:14px;font-weight:800;letter-spacing:0.08em;color:#5dd6c0;text-transform:uppercase;">🎯 Seven Areas · 七大生命領域</span>
-      <span style="color:rgba(255,255,255,0.5);font-size:13px;font-weight:400;">— Click an area above · 點擊上方選擇領域</span>
-    </div>
     <div id="aDetail"></div>
   </div>
 
@@ -620,6 +622,7 @@ function setMasteryDate(mkey, val) {
 }
 
 
+function editPct(key) {
   var a = null;
   for (var i = 0; i < AREAS.length; i++) { if (AREAS[i].key === key) { a = AREAS[i]; break; } }
   if (!a) return;
@@ -690,6 +693,8 @@ function showTab(name) {
     var btn = document.getElementById('maintab-' + tabs[i]);
     if (btn) btn.classList.toggle('active', tabs[i] === name);
   }
+  var lbl = document.getElementById('label-7a');
+  if (lbl) lbl.style.display = (name === '7a') ? 'flex' : 'none';
 }
 
 // ── MODALS ────────────────────────────────────────────
