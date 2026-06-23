@@ -1,7 +1,7 @@
 # 與主同行——大使命門徒協作平台
 ### *Apprentics of Jesus · Great Commission Discipleship Platform*
 
-🌐 **Live Site:** [https://ambrosecheng-bot.github.io/Apprentics-Jesus/](https://ambrosecheng-bot.github.io/Apprentics-Jesus/)
+🌐 **Live Site:** https://ambrosecheng-bot.github.io/7a-dashboard/
 
 ---
 
