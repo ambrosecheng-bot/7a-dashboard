@@ -161,11 +161,12 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
   </div>
 
   <!-- TAB: 7A -->
-  <div id="tab-7a">
-    <div class="sec-label">🎯 Seven Areas · 七大生命領域
-      <span style="color:rgba(255,255,255,0.35);font-size:10px;text-transform:none;letter-spacing:0;"> — Click an area · 點擊選擇領域</span>
-    </div>
+  <div id="tab-7a" style="display:none;">
     <div class="a-subtabs" id="aSubtabs"></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(93,214,192,0.12);border:2px solid rgba(93,214,192,0.4);border-radius:10px;margin-bottom:1rem;">
+      <span style="font-size:14px;font-weight:800;letter-spacing:0.08em;color:#5dd6c0;text-transform:uppercase;">🎯 Seven Areas · 七大生命領域</span>
+      <span style="color:rgba(255,255,255,0.5);font-size:13px;font-weight:400;">— Click an area above · 點擊上方選擇領域</span>
+    </div>
     <div id="aDetail"></div>
   </div>
 
@@ -251,11 +252,11 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
     <select id="taskArea">
       <option value="aging">🏃 Aging Well</option>
       <option value="art">🎵 Artistry</option>
-      <option value="autism">💙 Autism Awesome</option>
-      <option value="ai">🤖 AI Empowered Impact</option>
+      <option value="autism">💙 Autism</option>
+      <option value="ai">🤖 AI Agency</option>
       <option value="jesus">✝️ Apprentices of Jesus</option>
       <option value="auth">✍️ Authorship</option>
-      <option value="farm">🌱 Abundance Urban Farming</option>
+      <option value="farm">🌱 Agriculture</option>
     </select>
     <div class="modal-btns">
       <button class="btn btn-save" onclick="saveTask()">Add · 新增</button>
@@ -282,25 +283,46 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
 var AREAS = [
   { key:'aging', name:'Aging Well',              cn:'活好每天',   color:'#0e9ab5', icon:'🏃',
     goal:'Gym 2x/week · Daily walks after meals · Blood sugar control · Body-mind-spirit integration',
-    audacious:'Run a 5K race by December 2026. Reduce HbA1c to below 7.0 by end of 2026.' },
+    audacious:'Run a 5K race by December 2026. Reduce HbA1c to below 7.0 by end of 2026.',
+    book:'活到老，活得好', income:'健康教練、線上課程、著作版稅', community:'40–60歲 注重健康長者社群',
+    legacy:'創辦長者健康學院，培育千名健康大使',
+    mastery:['健康教練認證','血糖管理知識','正念減壓訓練','課程設計與線上發佈'] },
   { key:'art',   name:'Artistry',                cn:'藝術創作',   color:'#9b59b6', icon:'🎵',
     goal:'Piano 15min/day · Fingerstyle guitar · English calligraphy weekly',
-    audacious:'Perform one jazz piece publicly by mid-2027. Complete a calligraphy portfolio of 12 works.' },
-  { key:'autism',name:'Autism Awesome',          cn:'自閉症同行', color:'#2176c7', icon:'💙',
+    audacious:'Perform one jazz piece publicly by mid-2027. Complete a calligraphy portfolio of 12 works.',
+    book:'即興人生：爵士鋼琴的靈魂課', income:'音樂工作坊、演出、課程授權', community:'業餘音樂愛好者、創意表達者',
+    legacy:'建立跨代音樂橋樑，讓藝術治癒社區創傷',
+    mastery:['爵士即興理論','指彈吉他技巧','英文書法導師技能','工作坊教學法'] },
+  { key:'autism',name:'Autism',                  cn:'自閉症同行', color:'#2176c7', icon:'💙',
     goal:"Sons' wellbeing · Hostel community vision · Trust fund planning · Advocacy",
-    audacious:'Establish a legal trust fund for Yat Hin and Hon Shan by end of 2026. Begin hostel feasibility study.' },
-  { key:'ai',    name:'AI Empowered Impact',     cn:'AI賦能商業', color:'#e07b1a', icon:'🤖',
+    audacious:'Establish a legal trust fund for Yat Hin and Hon Shan by end of 2026. Begin hostel feasibility study.',
+    book:'與眾不同，卻同樣美麗', income:'社區顧問、政府資助、信託基金', community:'自閉症家庭、照顧者互助網絡',
+    legacy:'籌建自閉症社區宿舍及信託基金，守護一生',
+    mastery:['英國信託基金法律知識','社會住屋申請流程','政府資助撰寫','自閉症照顧者倡議技巧'] },
+  { key:'ai',    name:'AI Agency',               cn:'AI賦能商業', color:'#e07b1a', icon:'🤖',
     goal:'Landing page live · Make.com & n8n automation · 5 SME clients · Vibe coding apps',
-    audacious:'Serve 10 paying SME clients by end of 2026. Launch one AI automation course for Cantonese speakers.' },
+    audacious:'Serve 10 paying SME clients by end of 2026. Launch one AI automation course for Cantonese speakers.',
+    book:'AI 同行者：中小企的數碼轉型', income:'AI 自動化顧問、Make.com 方案', community:'香港/英國 SME 企業主',
+    legacy:'賦能萬家中小企，令 AI 成為公平競技場',
+    mastery:['Make.com & n8n 自動化','Vibe coding','AI Prompt Engineering','顧問銷售與定價策略'] },
   { key:'jesus', name:'Apprentices of Jesus',    cn:'耶穌學徒',   color:'#c9973f', icon:'✝️',
     goal:'Daily devotion · Disciple 1–2 people · BNO Christian community · Spiritual formation',
-    audacious:'Disciple 3 people deeply by end of 2027. Launch a monthly discipleship gathering for HK immigrants in Southampton.' },
+    audacious:'Disciple 3 people deeply by end of 2027. Launch a monthly discipleship gathering for HK immigrants in Southampton.',
+    book:'門徒之路：信仰塑造的生命', income:'門徒培訓課程、靈修退修營', community:'基督徒門徒、生命導師學員',
+    legacy:'建立華人門徒網絡，跨越教會文化邊界',
+    mastery:['聖經釋經能力','一對一門訓方法論','跨文化牧養','退修營設計與帶領'] },
   { key:'auth',  name:'Authorship',              cn:'數碼著作',   color:'#0e8a7a', icon:'✍️',
     goal:'Post 3x/week on LinkedIn · KDP book outline · Online course · Bilingual content',
-    audacious:'Publish first KDP book by end of 2026. Reach 1,000 LinkedIn followers by December 2026.' },
-  { key:'farm',  name:'Abundance Urban Farming', cn:'城市農耕',   color:'#4a8c1a', icon:'🌱',
+    audacious:'Publish first KDP book by end of 2026. Reach 1,000 LinkedIn followers by December 2026.',
+    book:'寫出你的第二人生', income:'KDP 出版、線上課程、版稅', community:'有故事想說的中年寫作人',
+    legacy:'出版改變生命的系列，成為中年轉型的指路明燈',
+    mastery:['KDP 出版流程','LinkedIn 內容策略','線上課程平台操作','中英雙語寫作技藝'] },
+  { key:'farm',  name:'Agriculture',             cn:'城市農耕',   color:'#4a8c1a', icon:'🌱',
     goal:'Weekly planting · Document farming journey · Autism farm vision · Permaculture learning',
-    audacious:'Establish a productive container garden by summer 2026. Draft autism community farm proposal by 2027.' }
+    audacious:'Establish a productive container garden by summer 2026. Draft autism community farm proposal by 2027.',
+    book:'城市農夫：豐盛從泥土開始', income:'城市農場導賞、農產品訂閱盒', community:'都市農耕愛好者、永續生活者',
+    legacy:'開創城市農耕運動，讓弱勢社群重獲土地與尊嚴',
+    mastery:['樸門永續設計','容器種植技術','社區農場運營','農療（Horticultural Therapy）基礎'] }
 ];
 
 var QUOTES = [
@@ -319,7 +341,7 @@ var QUOTES = [
 var DEFAULT_TASKS = [
   { time:'6:00–6:30',   task:'Morning devotion & prayer · 晨禱默想',         area:'jesus', done:false },
   { time:'6:30–7:00',   task:'Exercise / walk after breakfast · 運動散步',    area:'aging', done:false },
-  { time:'9:00–10:30',  task:'AI Empowered Impact work block · AI商業工作',   area:'ai',    done:false },
+  { time:'9:00–10:30',  task:'AI Agency work block · AI商業工作',            area:'ai',    done:false },
   { time:'10:30–10:45', task:'Piano / guitar practice · 鋼琴或結他練習',      area:'art',   done:false },
   { time:'14:00–15:30', task:'Authorship · write & post · 寫作發佈',          area:'auth',  done:false },
   { time:'16:00–16:30', task:'Urban farming · garden check · 農耕巡視',       area:'farm',  done:false },
@@ -341,7 +363,8 @@ var state = {
   days:        [false,false,false,false,false,false,false],
   mood:        '',
   reflections: [],
-  lastDate:    ''
+  lastDate:    '',
+  masteryDates: {}
 };
 
 function loadState() {
@@ -366,6 +389,14 @@ function checkNewDay() {
     state.lastDate = today;
     saveState();
   }
+}
+
+// ── HELPERS ───────────────────────────────────────────
+function hexToRgb(hex) {
+  var r = parseInt(hex.slice(1,3),16);
+  var g = parseInt(hex.slice(3,5),16);
+  var b = parseInt(hex.slice(5,7),16);
+  return r + ',' + g + ',' + b;
 }
 
 // ── RENDER FUNCTIONS ──────────────────────────────────
@@ -398,6 +429,21 @@ function render7ASubtabs() {
   document.getElementById('aSubtabs').innerHTML = html;
 }
 
+function buildMasteryList(a) {
+  var html = '';
+  for (var m = 0; m < a.mastery.length; m++) {
+    var mkey = a.key + '_' + m;
+    var mdate = (state.masteryDates && state.masteryDates[mkey]) || '';
+    var done = !!mdate;
+    html += '<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);">' +
+      '<div onclick="toggleMastery(\'' + mkey + '\')" style="flex-shrink:0;width:18px;height:18px;border-radius:4px;border:2px solid ' + (done ? a.color : 'rgba(255,255,255,0.25)') + ';background:' + (done ? a.color : 'transparent') + ';cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;">' + (done ? '✓' : '') + '</div>' +
+      '<div style="flex:1;font-size:13px;color:' + (done ? 'rgba(255,255,255,0.4)' : '#e8f4f8') + ';text-decoration:' + (done ? 'line-through' : 'none') + ';">' + a.mastery[m] + '</div>' +
+      '<input type="date" value="' + mdate + '" onchange="setMasteryDate(\'' + mkey + '\', this.value)" style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:' + (mdate ? a.color : 'rgba(255,255,255,0.3)') + ';padding:3px 6px;cursor:pointer;">' +
+    '</div>';
+  }
+  return html;
+}
+
 function render7ADetail() {
   var a = null;
   for (var i = 0; i < AREAS.length; i++) {
@@ -417,10 +463,29 @@ function render7ADetail() {
         '</div>' +
       '</div>' +
       '<div class="prog-bar"><div class="prog-fill" style="width:' + state.pct[a.key] + '%;background:' + a.color + '"></div></div>' +
-      '<div class="a-detail-label">📌 Current Focus · 現時焦點</div>' +
-      '<div class="a-detail-text">' + a.goal + '</div>' +
-      '<div class="a-detail-label">🌟 Audacious Goal · 宏大目標</div>' +
-      '<div class="a-detail-goal-box"><div class="a-detail-goal-text">' + a.audacious + '</div></div>' +
+      '<div class="a-detail-label">📊 策略矩陣 · Strategy Matrix</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:4px;">' +
+        '<div style="background:rgba(' + hexToRgb(a.color) + ',0.08);border:1px solid rgba(' + hexToRgb(a.color) + ',0.25);border-radius:10px;padding:0.75rem 0.9rem;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:5px;">🏆 傳奇貢獻 · Legendary Legacy</div>' +
+          '<div style="font-size:13px;color:' + a.color + ';line-height:1.5;font-weight:500;">' + a.legacy + '</div>' +
+        '</div>' +
+        '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.75rem 0.9rem;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:5px;">👥 社群 · Community</div>' +
+          '<div style="font-size:13px;color:#e8f4f8;line-height:1.5;">' + a.community + '</div>' +
+        '</div>' +
+        '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.75rem 0.9rem;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:5px;">📖 書名 · Book Title</div>' +
+          '<div style="font-size:13px;color:#e8f4f8;line-height:1.5;">' + a.book + '</div>' +
+        '</div>' +
+        '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.75rem 0.9rem;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:5px;">💰 收入來源 · Income Stream</div>' +
+          '<div style="font-size:13px;color:#e8f4f8;line-height:1.5;">' + a.income + '</div>' +
+        '</div>' +
+        '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.75rem 0.9rem;grid-column:1/-1;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:10px;">🛠️ 修煉功夫 · Mastery Stack</div>' +
+          buildMasteryList(a) +
+        '</div>' +
+      '</div>' +
       '<button class="btn-update" onclick="editPct(\'' + a.key + '\')">✏️ Update progress · 更新進度</button>' +
     '</div>';
 }
@@ -535,7 +600,26 @@ function selectArea(key) {
   render7ADetail();
 }
 
-function editPct(key) {
+function toggleMastery(mkey) {
+  if (!state.masteryDates) state.masteryDates = {};
+  if (state.masteryDates[mkey]) {
+    delete state.masteryDates[mkey];
+  } else {
+    state.masteryDates[mkey] = new Date().toISOString().slice(0,10);
+  }
+  saveState();
+  render7ADetail();
+}
+
+function setMasteryDate(mkey, val) {
+  if (!state.masteryDates) state.masteryDates = {};
+  if (val) { state.masteryDates[mkey] = val; }
+  else { delete state.masteryDates[mkey]; }
+  saveState();
+  render7ADetail();
+}
+
+
   var a = null;
   for (var i = 0; i < AREAS.length; i++) { if (AREAS[i].key === key) { a = AREAS[i]; break; } }
   if (!a) return;
@@ -661,6 +745,7 @@ renderDays();
 renderGoals();
 renderPastReflections();
 updateStats();
+showTab('7a');
 </script>
 </body>
 </html>
