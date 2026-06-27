@@ -1,820 +1,756 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>與主同行 · 尋寶之旅</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<title>Ambrose 7A Life Cockpit | 人生駕駛艙</title>
 <style>
-:root{
-  --paper:#e8d2a0;
-  --paper-hi:#f5e8c2;
-  --paper-lo:#d3ae68;
-  --ink:#3f2c12;
-  --ink-soft:#6d522b;
-  --ink-faint:#9a7b46;
-  --ochre:#bd8e38;
-  --ochre-dk:#9a6f24;
-  --seal:#a23527;
-  --seal-dark:#722017;
-  --line:rgba(122,90,46,.28);
-  --shadow:rgba(55,35,10,.28);
-  --serif:'Noto Serif TC',serif;
-  --sans:'Noto Sans TC',sans-serif;
-  --display:'Cinzel',serif;
-  --nav-h:60px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:var(--sans);color:var(--ink);background:var(--paper);
-  font-weight:300;line-height:1.85;-webkit-font-smoothing:antialiased;
-}
-::selection{background:var(--seal);color:#fff7df}
-a{color:inherit;text-decoration:none}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a1628; color: #e8f4f8; min-height: 100vh; }
 
-/* ambient parchment background */
-.bg{
-  position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:
-    radial-gradient(circle at 22% 18%, rgba(122,90,46,.10), transparent 30%),
-    radial-gradient(circle at 84% 72%, rgba(122,90,46,.12), transparent 32%),
-    radial-gradient(circle at 50% 50%, transparent 55%, rgba(47,33,12,.28)),
-    var(--paper);
-}
-.bg svg{position:absolute;inset:0;width:100%;height:100%}
+/* HEADER */
+.header { background: linear-gradient(135deg, #0a2540 0%, #0e4d6b 50%, #0a7a6b 100%); padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; }
+.header-title { font-size: 22px; font-weight: 600; color: #fff; }
+.header-sub { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 2px; }
+.header-date { font-size: 12px; color: rgba(255,255,255,0.6); text-align: right; }
+.verse { font-size: 12px; font-style: italic; color: rgba(255,255,255,0.75); margin-top: 0.75rem; border-left: 3px solid #1a9b7a; padding-left: 10px; }
+.stats-row { display: flex; gap: 10px; margin-top: 1rem; flex-wrap: wrap; }
+.stat-pill { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 14px; text-align: center; }
+.stat-num { font-size: 20px; font-weight: 600; color: #5dd6c0; }
+.stat-label { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 1px; }
 
-/* ---------------- NAV ---------------- */
-.nav{
-  position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:40;
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  padding:0 clamp(1rem,3vw,2rem);
-  background:rgba(245,232,194,.86);
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--line);
-}
-.brand{font-family:var(--serif);font-weight:700;font-size:1.15rem;letter-spacing:.08em;color:var(--ink);white-space:nowrap}
-.brand span{display:block;font-family:var(--display);font-size:.52rem;letter-spacing:.26em;color:var(--seal);font-weight:600;margin-top:1px}
-.nav-links{display:flex;align-items:center;gap:.5rem}
-.nav-links>a{font-size:.86rem;color:var(--ink-soft);padding:.3rem .5rem;border-radius:4px;transition:color .2s}
-.nav-links>a:hover{color:var(--seal)}
-.nav-links>a.active{color:var(--seal);font-weight:500}
-.pills{display:flex;gap:.32rem}
-.pill{
-  width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-family:var(--display);font-weight:600;font-size:.74rem;color:var(--ink-soft);
-  border:1px solid var(--line);transition:all .2s;
-}
-.pill:hover{border-color:var(--ochre);color:var(--ink)}
-.pill.active{background:var(--seal);color:#fff7df;border-color:var(--seal)}
-.menu-btn{
-  display:none;background:none;border:1px solid var(--line);color:var(--ink);
-  font-size:1.2rem;width:40px;height:38px;border-radius:6px;cursor:pointer;
-}
+/* LAYOUT */
+.container { max-width: 1200px; margin: 0 auto; padding: 1.25rem; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
 
-/* mobile menu overlay */
-.menu{
-  position:fixed;inset:0;z-index:50;background:rgba(232,210,160,.97);
-  backdrop-filter:blur(4px);
-  display:flex;flex-direction:column;padding:calc(var(--nav-h) + 1rem) clamp(1.2rem,5vw,2.4rem) 2rem;
-  gap:.2rem;opacity:0;pointer-events:none;transition:opacity .25s ease;overflow-y:auto;
-}
-.menu.open{opacity:1;pointer-events:auto}
-.menu .close{position:absolute;top:14px;right:18px;font-size:1.6rem;background:none;border:none;color:var(--ink);cursor:pointer}
-.menu .m-eyebrow{font-family:var(--display);font-size:.62rem;letter-spacing:.3em;color:var(--seal);margin:.4rem 0 .8rem}
-.menu a{
-  display:flex;align-items:center;gap:.9rem;padding:.7rem .4rem;border-bottom:1px solid var(--line);
-  font-family:var(--serif);font-size:1.05rem;color:var(--ink);
-}
-.menu a .mn{font-family:var(--display);font-weight:600;color:var(--seal);width:1.6rem}
-.menu a .me{margin-left:auto;font-family:var(--display);font-size:.66rem;letter-spacing:.1em;color:var(--ink-faint)}
-.menu a.active{color:var(--seal)}
+/* LABELS */
+.sec-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: #5dd6c0; text-transform: uppercase; margin: 1.25rem 0 0.6rem; }
 
-/* ---------------- VIEWS ---------------- */
-.view{display:none;animation:viewin .5s ease}
-.view.active{display:block}
-@keyframes viewin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* CARDS */
+.card { background: #0f2035; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; }
 
-/* ---------------- HOME / HERO ---------------- */
-.hero{
-  position:relative;min-height:100svh;overflow:hidden;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:clamp(1rem,3vw,1.6rem);padding:calc(var(--nav-h) + 1rem) clamp(1rem,3vw,2rem) 1.6rem;
-}
-.hero-map{position:relative;order:2;width:100%;height:auto;aspect-ratio:1200/760;display:block}
-.hero-content{
-  position:relative;z-index:3;order:1;width:min(92vw,560px);text-align:center;
-  padding:clamp(1.5rem,4vw,2.4rem);
-  background:linear-gradient(180deg, rgba(245,232,194,.95), rgba(232,210,160,.86));
-  border:2px solid rgba(63,44,18,.6);
-  box-shadow:0 0 0 5px rgba(245,232,194,.86),0 0 0 6px rgba(189,142,56,.78),0 20px 48px var(--shadow);
-}
-.hero-content::before,.hero-content::after{content:"";position:absolute;width:32px;height:32px;border:2px solid var(--ochre)}
-.hero-content::before{top:10px;left:10px;border-right:0;border-bottom:0}
-.hero-content::after{right:10px;bottom:10px;border-left:0;border-top:0}
-.kicker{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.32em;color:var(--seal);text-transform:uppercase;padding-left:.32em}
-.flourish{width:92px;margin:.8rem auto .6rem;color:var(--ochre);display:block}
-.hero h1{font-family:var(--serif);font-size:clamp(2.1rem,7vw,3.6rem);line-height:1.2;letter-spacing:.06em;color:var(--ink)}
-.subtitle{margin:1rem auto 0;max-width:32rem;font-family:var(--serif);font-size:clamp(1rem,2.3vw,1.18rem);line-height:1.8;color:var(--ink-soft)}
-.hero-actions{margin-top:1.5rem;display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap}
-.btn{appearance:none;border:0;display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:.76rem 1.3rem;border-radius:999px;font:700 .95rem/1 var(--sans);cursor:pointer;transition:transform .2s,background .2s,box-shadow .2s}
-.btn-primary{background:var(--seal);color:#fff7df;box-shadow:0 10px 22px rgba(114,32,23,.26)}
-.btn-secondary{background:rgba(245,232,194,.7);color:var(--ink);border:1px solid rgba(63,44,18,.4)}
-.btn:hover{transform:translateY(-2px)}.btn-primary:hover{background:var(--seal-dark)}
-.meta{margin-top:1.2rem;display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;color:var(--ink-soft);font-size:.88rem}
-.meta span{background:rgba(255,249,226,.5);border:1px solid var(--line);padding:.4rem .7rem;border-radius:999px}
-.pin{cursor:pointer}
-.pin .disc{transition:transform .22s ease;transform-origin:center;transform-box:fill-box}
-.pin:hover .disc{transform:scale(1.16)}
-.route-line,.branch,.treasure,.map-label,.pin{opacity:0;animation:fade .75s ease forwards}
-@keyframes fade{to{opacity:1}}
+/* QUOTE */
+.quote-card { background: linear-gradient(135deg, #0a2540, #0a3d2a); border: 1px solid rgba(26,155,122,0.3); border-radius: 12px; padding: 0.9rem 1.1rem; margin-bottom: 1rem; }
+.quote-text { font-size: 13px; font-style: italic; color: #a8d8cf; line-height: 1.6; }
 
-/* ---------------- STATION PAGE ---------------- */
+/* MAIN TABS */
+.tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+.tab { font-size: 12px; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; }
+.tab.active { background: #0e4d6b; border-color: #5dd6c0; color: #5dd6c0; }
 
-/* ---- HOME (evangelism & discipleship guide grid) ---- */
-.home{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:calc(var(--nav-h) + clamp(1.4rem,4vw,2.6rem)) clamp(.9rem,4vw,2rem) clamp(2.4rem,5vw,4rem)}
-.home-frame{position:relative;width:min(96vw,980px);background:linear-gradient(180deg,rgba(245,232,194,.72),rgba(232,210,160,.5));border:2px solid rgba(63,44,18,.5);box-shadow:0 0 0 5px rgba(245,232,194,.7),0 0 0 6px rgba(189,142,56,.6),0 24px 60px var(--shadow);padding:clamp(2rem,5vw,3.2rem) clamp(1.2rem,4vw,3rem) clamp(2rem,4vw,2.8rem)}
-.home-frame::before,.home-frame::after{content:"";position:absolute;width:32px;height:32px;border:2px solid var(--ochre)}
-.home-frame::before{top:12px;left:12px;border-right:0;border-bottom:0}
-.home-frame::after{bottom:12px;right:12px;border-left:0;border-top:0}
-.home-compass{position:absolute;top:14px;right:18px;width:56px;height:56px;opacity:.8}
-.home-head{text-align:center;max-width:40rem;margin:0 auto}
-.home-head h1{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,6vw,3.1rem);letter-spacing:.1em;color:var(--ink);margin-top:.7rem}
-.home-head .subtitle{margin:.9rem auto 0}
-.intro-kingdom{margin:.9rem auto 0;max-width:35rem;font-family:var(--serif);font-size:1.02rem;line-height:1.85;color:var(--ink)}
-.intro-kingdom b{color:var(--seal);font-weight:700}
-.benefit-label{margin:1.5rem auto .7rem;font-family:var(--display);font-size:.62rem;letter-spacing:.26em;color:var(--seal);text-transform:uppercase}
-.benefits{margin:0 auto;max-width:40rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
-.benefit{background:rgba(255,249,226,.55);border:1px solid var(--line);border-top:2px solid var(--ochre);border-radius:5px;padding:.85rem .7rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.3rem}
-.benefit .dot{width:.5rem;height:.5rem;background:var(--seal);transform:rotate(45deg)}
-.benefit b{font-family:var(--serif);font-weight:700;font-size:1.04rem;color:var(--ink);letter-spacing:.03em}
-.benefit span{font-size:.85rem;color:var(--ink-soft);line-height:1.55}
-@media (max-width:560px){.benefits{grid-template-columns:1fr;gap:.5rem}.benefit{flex-direction:row;justify-content:center;gap:.55rem;text-align:left}.benefit .dot{flex:none}}
-.verses{margin:1.2rem auto 0;max-width:33rem;display:flex;flex-direction:column;gap:.55rem}
-.verses p{font-family:var(--serif);font-size:1rem;color:var(--ink);line-height:1.7}
-.verses span{font-family:var(--display);font-size:.62rem;letter-spacing:.12em;color:var(--seal);margin-left:.5rem;white-space:nowrap}
-.grid{margin:clamp(1.7rem,4vw,2.4rem) auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.55rem,1.6vw,.95rem);max-width:760px}
-.block{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.45rem;text-align:center;min-height:128px;padding:1.05rem .7rem;background:rgba(255,249,226,.6);border:1px solid var(--line);border-top:3px solid var(--ochre);border-radius:5px;box-shadow:0 4px 12px rgba(55,35,10,.1);transition:transform .2s,box-shadow .2s,background .2s}
-.block:hover{transform:translateY(-3px);box-shadow:0 12px 24px var(--shadow);background:rgba(255,249,226,.92)}
-.block:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
-.block .b-seal{width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 38% 32%,#c2473a,var(--seal) 60%,var(--seal-dark));color:#fff7df;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:inset 0 1px 3px rgba(255,255,255,.25),inset 0 -2px 4px rgba(0,0,0,.22)}
-.block .b-title{font-family:var(--serif);font-weight:700;font-size:1.16rem;color:var(--ink);letter-spacing:.06em}
-.block .b-en{font-family:var(--display);font-size:.55rem;letter-spacing:.1em;color:var(--ink-faint);text-transform:uppercase}
-.block.phase-tilling{border-top-color:#bd8e38}
-.block.phase-entering{border-top-color:#a86a24}
-.block.phase-forming{border-top-color:#a23527}
-.legend{margin:1.2rem auto 0;display:flex;justify-content:center;flex-wrap:wrap;gap:.4rem 1.3rem;font-size:.8rem;color:var(--ink-soft)}
-.legend span{display:inline-flex;align-items:center;gap:.4rem}
-.legend .sw{width:.85rem;height:.85rem;border-radius:2px;display:inline-block}
-.legend .sw.tilling{background:#bd8e38}.legend .sw.entering{background:#a86a24}.legend .sw.forming{background:#a23527}
-.home-cta{margin-top:clamp(1.5rem,3vw,2rem);display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap}
-.treasure-note{margin-top:1.3rem;display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--serif);font-size:.86rem;color:var(--seal);letter-spacing:.03em}
-@media (max-width:560px){.grid{grid-template-columns:repeat(2,1fr)}.block{min-height:112px}.block .b-title{font-size:1.05rem}.home-compass{width:44px;height:44px;top:10px;right:12px}}
+/* 7A SUBTABS — one row on desktop */
+.a-subtabs { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 1rem; }
+@media (max-width: 900px) { .a-subtabs { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 500px) { .a-subtabs { grid-template-columns: repeat(2, 1fr); } }
+.a-subtab { border-left: 4px solid; border-top: 1px solid rgba(255,255,255,0.07); border-right: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07); border-radius: 0 10px 10px 0; padding: 0.7rem 0.5rem; cursor: pointer; background: #0f2035; transition: background 0.2s; text-align: center; }
+.a-subtab:hover, .a-subtab.active { background: #162d47; }
+.a-subtab-icon { font-size: 20px; margin-bottom: 4px; }
+.a-subtab-name { font-size: 10px; font-weight: 600; color: #e8f4f8; line-height: 1.3; }
+.a-subtab-cn { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.a-subtab-pct { font-size: 13px; font-weight: 700; margin-top: 4px; }
+.a-subtab-bar { height: 3px; border-radius: 2px; background: rgba(255,255,255,0.1); overflow: hidden; margin-top: 5px; }
+.a-subtab-fill { height: 100%; border-radius: 2px; }
 
-.station-page{
-  max-width:780px;margin:0 auto;
-  padding:calc(var(--nav-h) + clamp(1.4rem,4vw,2.6rem)) clamp(1.1rem,4vw,1.8rem) clamp(3rem,6vw,5rem);
-}
-.sheet{
-  position:relative;
-  background:linear-gradient(180deg, rgba(245,232,194,.7), rgba(245,232,194,.4));
-  border:1px solid var(--line);
-  box-shadow:0 18px 44px var(--shadow);
-  padding:clamp(1.8rem,5vw,3.2rem) clamp(1.4rem,5vw,3rem) clamp(2rem,5vw,3rem);
-}
-.sheet::before,.sheet::after{content:"";position:absolute;width:30px;height:30px;border:2px solid var(--ochre);opacity:.7}
-.sheet::before{top:12px;left:12px;border-right:0;border-bottom:0}
-.sheet::after{bottom:12px;right:12px;border-left:0;border-top:0}
+/* 7A DETAIL */
+.a-detail-card { background: #0f2035; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.25rem 1.4rem; }
+.a-detail-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+.a-detail-title { font-size: 22px; font-weight: 700; }
+.a-detail-cn { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.a-detail-pct { font-size: 40px; font-weight: 700; text-align: right; }
+.a-detail-pct-label { font-size: 11px; color: rgba(255,255,255,0.4); text-align: right; }
+.prog-bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden; margin-bottom: 1.25rem; }
+.prog-fill { height: 100%; border-radius: 4px; }
+.a-detail-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5dd6c0; margin-bottom: 6px; margin-top: 1rem; }
+.a-detail-text { font-size: 13px; color: #c8e0e8; line-height: 1.6; }
+.a-detail-goal-box { background: rgba(26,155,122,0.1); border: 1px solid rgba(26,155,122,0.3); border-radius: 10px; padding: 0.9rem 1rem; margin-top: 6px; }
+.a-detail-goal-text { font-size: 14px; color: #5dd6c0; line-height: 1.6; font-weight: 500; }
+.btn-update { font-size: 12px; padding: 8px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #c8e0e8; cursor: pointer; margin-top: 1rem; transition: all 0.2s; }
+.btn-update:hover { background: rgba(255,255,255,0.07); }
 
-.st-banner{display:block;margin:0 0 1.5rem;border-radius:6px;overflow:hidden;border:1px solid var(--line);box-shadow:0 12px 30px var(--shadow);background:var(--paper-hi)}
-.st-banner img{display:block;width:100%;height:auto}
-.st-progress{display:flex;align-items:center;gap:.7rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.4rem}
-.st-progress .pe{font-family:var(--display);font-size:.62rem;letter-spacing:.28em;color:var(--seal);text-transform:uppercase}
-.dots{display:flex;gap:.34rem}
-.dots i{width:7px;height:7px;border-radius:50%;background:var(--line);display:block}
-.dots i.on{background:var(--seal)}
-.dots i.done{background:var(--ochre)}
+/* TIMEBOX */
+.tb-list { display: flex; flex-direction: column; gap: 6px; }
+.tb-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 12px; cursor: pointer; }
+.tb-item.done { opacity: 0.4; text-decoration: line-through; }
+.tb-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.tb-time { font-weight: 600; color: #5dd6c0; min-width: 80px; font-size: 11px; }
+.tb-task { flex: 1; color: #c8e0e8; }
+.tb-check { font-size: 14px; color: #1a9b7a; }
 
-.seal{
-  width:74px;height:74px;border-radius:50%;margin:0 auto 1rem;
-  display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(circle at 38% 32%, #c2473a, var(--seal) 60%, var(--seal-dark));
-  color:#fff7df;font-family:var(--display);font-weight:700;font-size:1.7rem;
-  box-shadow:0 6px 16px rgba(114,32,23,.34), inset 0 2px 6px rgba(255,255,255,.22), inset 0 -3px 8px rgba(0,0,0,.25);
-  border:2px solid rgba(255,247,223,.35);
-}
-.st-eyebrow{text-align:center;font-family:var(--display);font-size:.66rem;letter-spacing:.26em;color:var(--ink-faint);text-transform:uppercase}
-.st-title{text-align:center;font-family:var(--serif);font-weight:700;font-size:clamp(2rem,6vw,3rem);letter-spacing:.08em;color:var(--ink);margin-top:.5rem}
-.st-en{text-align:center;font-family:var(--display);font-size:.8rem;letter-spacing:.16em;color:var(--seal);margin-top:.5rem}
-.st-rule{display:flex;align-items:center;justify-content:center;gap:.7rem;margin:1.3rem 0}
-.st-rule .ln{height:1px;width:54px;background:var(--ochre);opacity:.6}
-.st-rule .dia{width:7px;height:7px;background:var(--ochre);transform:rotate(45deg)}
-.st-lead{text-align:center;font-family:var(--serif);font-size:1.16rem;line-height:1.8;color:var(--ink-soft);max-width:34rem;margin:0 auto}
+/* WINS */
+.wins-list { display: flex; flex-direction: column; gap: 6px; }
+.win-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 12px; color: #c8e0e8; }
+.win-item.done { background: rgba(26,155,122,0.15); border-color: rgba(26,155,122,0.3); color: #5dd6c0; }
+.win-circle { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; font-size: 11px; }
+.win-circle.done { background: #1a9b7a; border-color: #1a9b7a; color: white; }
 
-/* transformation flow */
-.flow{margin:2.2rem auto 0;max-width:36rem;display:flex;flex-direction:column;align-items:center;gap:0}
-.step{width:100%;padding:1rem 1.2rem;border-radius:4px;text-align:center}
-.step .lab{font-family:var(--display);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;display:block;margin-bottom:.3rem}
-.step.from{background:rgba(122,90,46,.08);border:1px solid var(--line)}
-.step.from .lab{color:var(--ink-faint)}
-.step.from p{color:var(--ink-soft);font-family:var(--serif)}
-.step.means{background:linear-gradient(180deg,rgba(189,142,56,.2),rgba(189,142,56,.1));border:1px solid var(--ochre);border-left-width:3px}
-.step.means .lab{color:var(--ochre-dk)}
-.step.means p{color:var(--ink);font-family:var(--serif);font-weight:500}
-.step.to{background:rgba(162,53,39,.1);border:1px solid rgba(162,53,39,.4)}
-.step.to .lab{color:var(--seal)}
-.step.to p{color:var(--ink);font-family:var(--serif);font-weight:500}
-.arrow{color:var(--ochre);font-size:1.2rem;line-height:1;padding:.45rem 0}
+/* DAYS */
+.days-row { display: flex; gap: 6px; }
+.day-dot { flex: 1; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; color: rgba(255,255,255,0.4); }
+.day-dot.today { background: #0e4d6b; border-color: #5dd6c0; color: #5dd6c0; }
+.day-dot.checked { background: #1a9b7a; border-color: #1a9b7a; color: white; }
 
-.scripture{
-  margin:2.2rem auto 0;max-width:36rem;position:relative;
-  padding:1.3rem 1.5rem 1.3rem 1.7rem;
-  background:rgba(255,249,226,.5);border-left:3px solid var(--seal);border-radius:0 4px 4px 0;
-}
-.scripture .ref{font-family:var(--display);font-size:.72rem;letter-spacing:.16em;color:var(--seal);display:block;margin-bottom:.4rem}
-.scripture .verse{font-family:var(--serif);font-size:1.12rem;line-height:1.75;color:var(--ink)}
+/* REFLECTION */
+.reflect-group { margin-bottom: 10px; }
+.reflect-label { font-size: 11px; color: #5dd6c0; margin-bottom: 4px; font-weight: 600; }
+textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; color: #e8f4f8; font-size: 13px; font-family: inherit; resize: vertical; min-height: 64px; }
+textarea:focus { outline: none; border-color: #5dd6c0; }
+textarea::placeholder { color: rgba(255,255,255,0.25); }
+.mood-row { display: flex; gap: 6px; margin-bottom: 12px; }
+.mood-btn { font-size: 20px; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; cursor: pointer; }
+.mood-btn.sel { border-color: #5dd6c0; background: rgba(93,214,192,0.15); }
 
-.why{margin:1.8rem auto 0;max-width:36rem;color:var(--ink-soft);font-size:.98rem;line-height:1.8;text-align:center}
-.why b{font-family:var(--serif);color:var(--seal);font-weight:600;margin-right:.4rem}
+/* BUTTONS */
+.btn { font-size: 12px; padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #c8e0e8; cursor: pointer; margin-top: 8px; width: 100%; }
+.btn:hover { background: rgba(255,255,255,0.07); }
+.btn-save { background: linear-gradient(135deg, #0e4d6b, #1a9b7a); border: none; color: white; font-weight: 600; }
 
-/* dual-track essay (station 1) */
-.essay{max-width:40rem;margin:2.6rem auto 0;padding-top:2rem;border-top:1px solid var(--line)}
-.essay-eyebrow{display:block;text-align:center;font-family:var(--display);font-size:.62rem;letter-spacing:.28em;color:var(--seal);text-transform:uppercase}
-.essay h3{text-align:center;font-family:var(--serif);font-weight:700;font-size:1.5rem;letter-spacing:.05em;color:var(--ink);margin:.5rem 0 1.1rem}
-.essay-intro{font-family:var(--serif);font-size:1.06rem;line-height:1.95;color:var(--ink);text-align:center;margin-bottom:.6rem}
-.theme{margin-top:2rem}
-.theme-title{display:flex;align-items:center;gap:.6rem;font-family:var(--serif);font-weight:700;font-size:1.18rem;color:var(--ink);letter-spacing:.06em;margin-bottom:.7rem}
-.theme-title .tn{width:1.9rem;height:1.9rem;flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--seal);color:#fff7df;font-family:var(--display);font-size:.9rem;font-weight:700}
-.track{padding:.2rem 0 .2rem 1rem;border-left:2px solid var(--ochre);margin-bottom:.7rem}
-.track.b{border-left-color:var(--seal);background:rgba(162,53,39,.05);border-radius:0 4px 4px 0;padding:.7rem 1rem}
-.track .tk{display:block;font-family:var(--display);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.3rem}
-.track.a .tk{color:var(--ochre-dk)}
-.track.b .tk{color:var(--seal)}
-.track p{font-family:var(--serif);font-size:1rem;line-height:1.9;color:var(--ink)}
-.track p .gk{font-style:italic;color:var(--ink-soft)}
-.essay-box{margin-top:2rem;padding:1.2rem 1.4rem;border:1px solid var(--ochre);border-radius:5px;background:rgba(189,142,56,.08)}
-.essay-box.apply{border-color:var(--line);background:rgba(255,249,226,.5)}
-.essay-box .tk{display:block;font-family:var(--display);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--seal);margin-bottom:.45rem}
-.essay-box p{font-family:var(--serif);font-size:1rem;line-height:1.9;color:var(--ink)}
+/* GOALS */
+.goal-card { background: #0f2035; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 10px; }
 
-/* actionable block (station 1) */
-.action{max-width:40rem;margin:2.4rem auto 0;padding-top:2rem;border-top:1px solid var(--line)}
-.action-eyebrow{display:block;text-align:center;font-family:var(--display);font-size:.62rem;letter-spacing:.26em;color:var(--seal);text-transform:uppercase}
-.action h3{text-align:center;font-family:var(--serif);font-weight:700;font-size:1.4rem;letter-spacing:.05em;color:var(--ink);margin:.5rem 0 1.3rem}
-.act{border:1px solid var(--line);border-left:3px solid var(--ochre);border-radius:0 5px 5px 0;background:rgba(255,249,226,.5);padding:1.1rem 1.3rem;margin-bottom:1rem}
-.act .num{display:inline-flex;align-items:center;justify-content:center;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--seal);color:#fff7df;font-family:var(--display);font-weight:700;font-size:.82rem;margin-right:.55rem;vertical-align:middle}
-.act .h{font-family:var(--serif);font-weight:700;font-size:1.1rem;color:var(--ink);letter-spacing:.04em;vertical-align:middle}
-.act .en{font-family:var(--display);font-size:.58rem;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase;margin-left:.5rem}
-.act .lead{font-family:var(--serif);font-size:1.04rem;line-height:1.85;color:var(--ink);margin:.7rem 0 0}
-.act .note{font-size:.88rem;color:var(--ink-soft);line-height:1.75;margin-top:.6rem}
-.act .pray{font-family:var(--serif);font-style:italic;color:var(--seal);margin-top:.7rem;line-height:1.7}
-.act ul{margin:.7rem 0 0;padding-left:1.15rem}
-.act li{font-family:var(--serif);font-size:1rem;line-height:1.8;color:var(--ink);margin-bottom:.5rem}
-.act textarea{width:100%;margin-top:.75rem;min-height:5.4rem;resize:vertical;background:rgba(255,253,245,.85);border:1px solid var(--line);border-radius:5px;padding:.7rem .85rem;font-family:var(--serif);font-size:.98rem;color:var(--ink);line-height:1.75}
-.act textarea:focus{outline:none;border-color:var(--ochre)}
-.act .micro{display:block;font-size:.78rem;color:var(--ink-faint);margin-top:.45rem;line-height:1.65}
-.act.guard{border-left-color:var(--seal);background:rgba(162,53,39,.06)}
-.act.guard .h{color:var(--seal)}
+/* MODAL */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; }
+.modal-bg.open { display: flex; }
+.modal { background: #0f2035; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; width: 90%; max-width: 440px; }
+.modal h3 { font-size: 16px; margin-bottom: 1rem; color: #5dd6c0; }
+.modal input, .modal select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; color: #e8f4f8; font-size: 13px; font-family: inherit; margin-bottom: 8px; }
+.modal-btns { display: flex; gap: 8px; margin-top: 8px; }
+.modal-btns .btn { margin: 0; }
 
-/* page nav */
-.page-nav{margin:2.6rem auto 0;max-width:40rem;display:grid;grid-template-columns:1fr auto 1fr;gap:.8rem;align-items:stretch}
-.pn{display:flex;flex-direction:column;justify-content:center;padding:.85rem 1.1rem;border:1px solid var(--line);border-radius:6px;background:rgba(255,249,226,.4);transition:border-color .2s,transform .2s;min-height:62px}
-.pn:hover{border-color:var(--ochre);transform:translateY(-2px)}
-.pn .pn-k{font-family:var(--display);font-size:.58rem;letter-spacing:.16em;color:var(--ink-faint);text-transform:uppercase}
-.pn .pn-t{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:1rem;margin-top:.2rem}
-.pn.next{text-align:right}
-.pn.map{align-items:center;justify-content:center;background:var(--seal);border-color:var(--seal);color:#fff7df;font-family:var(--serif);font-weight:600;padding:.85rem 1rem}
-.pn.map:hover{background:var(--seal-dark)}
-.pn.disabled{opacity:.4;pointer-events:none}
+/* TOAST */
+.toast { position: fixed; bottom: 24px; right: 24px; background: #1a9b7a; color: white; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 200; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; }
+.toast.show { opacity: 1; transform: translateY(0); }
 
-@media (min-width:760px){
-  .hero{display:block}
-  .hero-map{position:absolute;inset:0;order:0;width:100%;height:100%;aspect-ratio:auto}
-  .hero-content{position:absolute;left:50%;top:calc(var(--nav-h) + clamp(1.4rem,4vw,2.6rem));transform:translateX(-50%);width:min(78vw,640px)}
-}
-@media (max-width:759px){
-  .nav-links{display:none}
-  .menu-btn{display:block}
-  .subtitle br{display:none}
-  .meta{display:none}
-}
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .view,.route-line,.branch,.treasure,.map-label,.pin{animation:none;opacity:1}
-  .pin .disc,.btn,.pn{transition:none}
-}
+/* FOOTER */
+.footer { text-align: center; padding: 1.5rem; font-size: 11px; color: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.06); margin-top: 1.5rem; }
 </style>
 </head>
 <body>
-<div class="bg">
-  <svg xmlns="http://www.w3.org/2000/svg"><defs>
-    <filter id="bgGrain"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer></filter>
-  </defs><rect width="100%" height="100%" filter="url(#bgGrain)" opacity="0.5"/></svg>
-</div>
 
-<nav class="nav">
-  <a class="brand" href="#home">與主同行</a>
-  <div class="nav-links">
-    <a href="#home" data-route="#home">首頁</a>
-    <span class="pills" id="navPills"></span>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">✈️ Ambrose 7A Life Cockpit</div>
+      <div class="header-sub">人生駕駛艙 · Aging Well · Living Fully · Leaving a Legacy</div>
+    </div>
+    <div class="header-date" id="headerDate"></div>
   </div>
-  <button class="menu-btn" id="menuBtn" aria-label="開啟選單" aria-expanded="false">☰</button>
-</nav>
-
-<div class="menu" id="menu" aria-hidden="true">
-  <button class="close" id="menuClose" aria-label="關閉選單">&times;</button>
-  <div class="m-eyebrow">門徒之路 · 九站旅程</div>
-  <a href="#home"><span class="mn">⌂</span><span>首頁 · 九宮格指南</span></a>
-  <div id="menuStations"></div>
+  <div class="verse">「你手所當做的事要盡力去做」— 傳道書 9:10 &nbsp;·&nbsp; "Whatever your hand finds to do, do it with all your might." — Ecclesiastes 9:10</div>
+  <div class="stats-row">
+    <div class="stat-pill"><div class="stat-num" id="statOverall">0%</div><div class="stat-label">Overall · 整體</div></div>
+    <div class="stat-pill"><div class="stat-num" id="statStreak">1</div><div class="stat-label">Day streak · 連續</div></div>
+    <div class="stat-pill"><div class="stat-num" id="statWins">0</div><div class="stat-label">Wins today · 今日勝利</div></div>
+    <div class="stat-pill"><div class="stat-num" id="statTasks">0</div><div class="stat-label">Tasks left · 待完成</div></div>
+    <div class="stat-pill"><div class="stat-num" id="statDays">0</div><div class="stat-label">Days to 5 Sep 2028 · 目標倒數</div></div>
+  </div>
 </div>
 
-<main>
-  <!-- HOME -->
-  <section id="home" class="view active">
-    <div class="home">
-      <div class="home-frame">
-        <svg class="home-compass" viewBox="-60 -60 120 120" aria-hidden="true">
-          <circle r="55" fill="none" stroke="#7a5a2e" stroke-opacity=".45" stroke-width="1.4"/>
-          <circle r="42" fill="none" stroke="#7a5a2e" stroke-opacity=".28" stroke-width="1"/>
-          <g fill="#7a5a2e" fill-opacity=".7"><path d="M0 -50 L8 0 L0 10 L-8 0 Z"/><path d="M0 50 L8 0 L0 -10 L-8 0 Z" fill-opacity=".4"/><path d="M-50 0 L0 8 L10 0 L0 -8 Z" fill-opacity=".4"/><path d="M50 0 L0 8 L-10 0 L0 -8 Z" fill-opacity=".4"/></g>
-          <text x="0" y="-44" text-anchor="middle" font-family="Cinzel" font-size="15" fill="#7c2419">北</text>
-        </svg>
-        <div class="home-head">
-          <div class="kicker">傳福音 · 招訓門徒指南</div>
-          <h1>傳福音 · 招訓門徒</h1>
-          <p class="subtitle">無論你是初次尋道的朋友、正在受訓的門徒，還是陪伴別人的門徒造就者——這幅九站地圖，為你標出沿途的方向與同行的指引。</p>
-          <p class="intro-kingdom">除了適應英國的生活，許多人更在<b>天國的生活</b>裡，尋回移民途中一度失落的身份、盼望與歸屬——在基督裡，重新安家、站穩，並活出有根有力的人生。</p>
-          <div class="benefit-label">在這條路上，你將得著</div>
-          <div class="benefits">
-            <div class="benefit"><span class="dot"></span><b>傳福音</b><span>自然地與身邊的人分享福音</span></div>
-            <div class="benefit"><span class="dot"></span><b>在基督裡成長</b><span>經歷生命的更新與成全</span></div>
-            <div class="benefit"><span class="dot"></span><b>建立天國</b><span>藉門徒造就，一個影響一個</span></div>
-          </div>
-          <div class="verses">
-            <p>「你們要去，使萬民作我的門徒。」<span>馬太福音 28:19</span></p>
-            <p>「交託那忠心能教導別人的人。」<span>提摩太後書 2:2</span></p>
-          </div>
+<!-- MAIN -->
+<div class="container">
+
+  <div class="quote-card"><div class="quote-text" id="quoteText">Loading...</div></div>
+
+  <!-- MAIN TABS -->
+  <div class="tabs">
+    <button class="tab active" id="maintab-7a"      onclick="showTab('7a')">7A Progress · 七大進度</button>
+    <button class="tab"        id="maintab-today"   onclick="showTab('today')">Today · 今日</button>
+    <button class="tab"        id="maintab-reflect" onclick="showTab('reflect')">Reflection · 反思</button>
+    <button class="tab"        id="maintab-goals"   onclick="showTab('goals')">Goals · 目標</button>
+  </div>
+
+  <!-- 7A LABEL — always visible, outside any tab panel -->
+  <div id="label-7a" style="display:none;align-items:center;gap:10px;padding:10px 16px;background:rgba(93,214,192,0.12);border:2px solid rgba(93,214,192,0.4);border-radius:10px;margin-bottom:1rem;">
+    <span style="font-size:14px;font-weight:800;letter-spacing:0.08em;color:#5dd6c0;text-transform:uppercase;">🎯 Seven Areas · 七大生命領域</span>
+    <span style="color:rgba(255,255,255,0.5);font-size:13px;font-weight:400;">— Click an area below · 點擊下方選擇領域</span>
+  </div>
+
+  <!-- TAB: 7A -->
+  <div id="tab-7a" style="display:none;">
+    <div class="a-subtabs" id="aSubtabs"></div>
+    <div id="aDetail"></div>
+  </div>
+
+  <!-- TAB: TODAY -->
+  <div id="tab-today" style="display:none;">
+    <div class="grid2">
+      <div>
+        <div class="sec-label">⏱ Today's Timeboxes · 今日時間盒</div>
+        <div class="card">
+          <div class="tb-list" id="tbList"></div>
+          <button class="btn" onclick="openModal('taskModal')">+ Add task · 加任務</button>
         </div>
-        <div class="grid" id="homeGrid"></div>
-        <div class="legend">
-          <span><i class="sw tilling"></i>鬆土期 · 初遇～探問</span>
-          <span><i class="sw entering"></i>入門期 · 同讀～委身</span>
-          <span><i class="sw forming"></i>成全與倍增 · 造就 / 差遣</span>
-        </div>
-        <div class="home-cta">
-          <a class="btn btn-primary" href="#st-1">開始旅程</a>
-          <button class="btn btn-secondary" id="openMenu">瀏覽全部九站</button>
-        </div>
-        <div class="treasure-note">
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M3 9 h18 v9 a1 1 0 0 1 -1 1 H4 a1 1 0 0 1 -1 -1 Z" fill="#7c5a2c" stroke="#3f2c12" stroke-width="1"/><path d="M3 9 q9 -6 18 0" fill="#8a6a34" stroke="#3f2c12" stroke-width="1"/><rect x="10.5" y="11" width="3" height="4" fill="#f5e8c2"/></svg>
-          終點 · 至寶 · 天國（馬太福音 13:44）
+      </div>
+      <div>
+        <div class="sec-label">🏆 Small Wins · 小小勝利</div>
+        <div class="card">
+          <div class="wins-list" id="winsList"></div>
+          <button class="btn" onclick="openModal('winModal')">+ Log a win · 記錄勝利</button>
         </div>
       </div>
     </div>
-  </section>
+    <div class="sec-label">📅 Weekly Check-in · 本週出勤</div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span style="font-size:13px;color:rgba(255,255,255,0.5);">Click to mark a day · 點擊記錄出勤</span>
+        <span style="font-size:18px;font-weight:700;color:#5dd6c0;" id="streakLabel">1 day</span>
+      </div>
+      <div class="days-row" id="daysRow"></div>
+    </div>
+  </div>
 
-  <!-- STATION PAGES injected here -->
-  <div id="stationsContainer"></div>
-</main>
+  <!-- TAB: REFLECT -->
+  <div id="tab-reflect" style="display:none;">
+    <div class="sec-label">✍️ Daily Reflection · 每日反思</div>
+    <div class="card">
+      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:8px;">How do you feel today? · 今天狀態：</div>
+      <div class="mood-row">
+        <button class="mood-btn" onclick="setMood(this,'💪')">💪</button>
+        <button class="mood-btn" onclick="setMood(this,'😊')">😊</button>
+        <button class="mood-btn" onclick="setMood(this,'😐')">😐</button>
+        <button class="mood-btn" onclick="setMood(this,'😓')">😓</button>
+        <button class="mood-btn" onclick="setMood(this,'🙏')">🙏</button>
+        <button class="mood-btn" onclick="setMood(this,'🔥')">🔥</button>
+      </div>
+      <div class="reflect-group">
+        <div class="reflect-label">🌿 Grateful for · 感恩：</div>
+        <textarea id="r1" placeholder="Today I am grateful for... · 今天我感恩..."></textarea>
+      </div>
+      <div class="reflect-group">
+        <div class="reflect-label">💡 One lesson · 一個功課：</div>
+        <textarea id="r2" placeholder="Today I learned... · 今天我學到..."></textarea>
+      </div>
+      <div class="reflect-group">
+        <div class="reflect-label">🎯 Tomorrow's focus · 明日焦點：</div>
+        <textarea id="r3" placeholder="Tomorrow I will focus on... · 明天我要專注..."></textarea>
+      </div>
+      <div class="reflect-group">
+        <div class="reflect-label">🙏 Prayer · 禱告：</div>
+        <textarea id="r4" placeholder="Lord, today I bring to you... · 主啊，今天我帶到你面前..."></textarea>
+      </div>
+      <button class="btn btn-save" onclick="saveReflection()">Save reflection · 儲存反思 ✓</button>
+    </div>
+    <div class="sec-label">📖 Past Reflections · 過往反思</div>
+    <div id="pastReflections"></div>
+  </div>
+
+  <!-- TAB: GOALS -->
+  <div id="tab-goals" style="display:none;">
+    <div class="sec-label">🌟 Audacious Goals · 宏大目標</div>
+    <div id="goalsList"></div>
+  </div>
+
+</div><!-- /container -->
+
+<div class="footer">✈️ Ambrose 7A Life Cockpit · 人生駕駛艙 · Built with faith, purpose & AI · 「活好·愛深·傳承有道」</div>
+
+<!-- MODALS -->
+<div class="modal-bg" id="taskModal">
+  <div class="modal">
+    <h3>+ Add Timebox Task · 新增時間盒任務</h3>
+    <input type="text" id="taskTime" placeholder="Time · 時間 (e.g. 9:00–10:00)">
+    <input type="text" id="taskName" placeholder="Task · 任務名稱">
+    <select id="taskArea">
+      <option value="aging">🏃 Aging Well</option>
+      <option value="art">🎵 Artistry</option>
+      <option value="autism">💙 Autism</option>
+      <option value="ai">🤖 AI Agency</option>
+      <option value="jesus">✝️ Apprentices of Jesus</option>
+      <option value="auth">✍️ Authorship</option>
+      <option value="farm">🌱 Agriculture</option>
+    </select>
+    <div class="modal-btns">
+      <button class="btn btn-save" onclick="saveTask()">Add · 新增</button>
+      <button class="btn" onclick="closeModal('taskModal')">Cancel · 取消</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="winModal">
+  <div class="modal">
+    <h3>🏆 Log a Win · 記錄勝利</h3>
+    <input type="text" id="winText" placeholder="What did you accomplish? · 您完成了什麼？">
+    <div class="modal-btns">
+      <button class="btn btn-save" onclick="saveWin()">Celebrate! · 慶祝！🎉</button>
+      <button class="btn" onclick="closeModal('winModal')">Cancel · 取消</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-/* ---------------- DATA ---------------- */
-const PHASES = {
-  tilling:{zh:"鬆土期",en:"Tilling"},
-  entering:{zh:"入門期",en:"Entering"},
-  forming:{zh:"成全與倍增",en:"Forming & Sending"}
-};
-const STATIONS=[
- {n:1,name:"初遇",title:"路上相遇",en:"A Meeting on the Road",phase:"tilling",
-  x:130,y:558,lx:0,ly:-32,anchor:"middle",
-  one:"門徒之路由關係起步，不由論證起步。",
-  from:"從未把福音當作與自己有關的人",
-  means:"一位門徒真誠的友誼與生命接觸。",
-  to:"知道世上有一條「與主同行」的活法，值得一探",
-  ref:"約 1:39、46",verse:"「你來看。」",
-  why:"人先信任傳遞者，才聽得進信息。"},
- {n:2,name:"見證",title:"看見改變",en:"Changed Lives",phase:"tilling",
-  x:248,y:648,lx:0,ly:44,anchor:"middle",
-  one:"別人能，我也可能。",
-  from:"對信仰聽過、卻帶著保留或誤解",
-  means:"別人真實的生命轉變見證。",
-  to:"相信這條路真的改變過人",
-  ref:"約 4:39",verse:"因婦人作見證的話，那城裡有好些人信了。",
-  why:"見證提供「可信性」，化解抽象的疑慮。"},
- {n:3,name:"共鳴",title:"與我有關",en:"Closer to Home",phase:"tilling",
-  x:380,y:612,lx:0,ly:44,anchor:"middle",
-  one:"從對方真實的渴點切入，不從抽象教義切入。",
-  from:"對這條路略有好感",
-  means:"福音與他此刻處境的連結點——移民、工作、子女、身份、歸屬、後半生。",
-  to:"隱約感到「這也許與我有關」，想多了解",
-  ref:"約 4:13–14",verse:"人若喝我所賜的水，就永遠不渴。",
-  why:"這才是真正貼近慕道者的做法：先觸及人的渴，再引介活水。"},
- {n:4,name:"探問",title:"親自查證",en:"See for Yourself",phase:"tilling",
-  x:510,y:588,lx:0,ly:44,anchor:"middle",
-  one:"自己驗證過的信心，才是他自己的。",
-  from:"帶著一點興趣，想了解",
-  means:"可帶走、可自行查考的內容（福音書卷／慕道材料），並留下聯絡持續同行。",
-  to:"擁有準確的認識，已在心中「試想過」",
-  ref:"徒 17:11",verse:"庇哩亞人天天考查聖經，要曉得這道是與不是。",
-  why:"給人自行查驗的空間，信心才會真正扎根。"},
- {n:5,name:"同讀",title:"結伴同讀",en:"Reading Together",phase:"entering",
-  x:642,y:624,lx:0,ly:44,anchor:"middle",
-  one:"真理在陪伴中的對話裡點燃，不在單向灌輸裡。",
-  from:"手上有資源、心中仍存疑問",
-  means:"有人陪他閱讀、回應、嘗試應用（從「發現式查經」起步）。",
-  to:"渴望親身經歷一次，更認識自己與神",
-  ref:"路 24:32",verse:"在路上…講解聖經的時候，我們的心豈不是火熱的嗎？",
-  why:"同行式的閱讀，把知識變成相遇。"},
- {n:6,name:"初嚐主恩",title:"親嚐主恩",en:"Taste and See",phase:"entering",
-  x:772,y:590,lx:0,ly:44,anchor:"middle",
-  one:"經歷先於完全的理解。",
-  from:"願意經歷的慕道朋友",
-  means:"一次經歷性的相遇——親身禱告、讀經、敬拜，嚐到神的真實。",
-  to:"試過初階屬靈操練且有美好結果，把「跟隨主」放到人生首位",
-  ref:"詩 34:8",verse:"你們要嘗嘗主恩的滋味，便知道祂是美善。",
-  why:"人嚐過，渴望才被真正點燃。"},
- {n:7,name:"委身",title:"立志跟隨",en:"Choosing to Follow",phase:"entering",
-  x:884,y:616,lx:0,ly:44,anchor:"middle",
-  one:"誠實說明代價，反而帶來真實的委身。",
-  from:"預備跟隨、卻未正式回應的人",
-  means:"誠實說明作門徒的內容與代價，陪他回應、受洗、進入群體。",
-  to:"一位已委身的門徒",
-  ref:"路 14:28",verse:"豈不先坐下算計花費，能蓋成不能呢？",
-  why:"這正是門徒之路與推廣漏斗的分別：不施壓成交，容許人自由回應。"},
- {n:8,name:"造就",title:"基督成形",en:"Christ Formed in You",phase:"forming",
-  x:980,y:470,lx:0,ly:46,anchor:"middle",
-  one:"造就是「基督成形」的歷程，不是一次課程。",
-  from:"剛委身、渴望成長的門徒",
-  means:"有系統、有同伴、有牧養的造就——學效與嘗試、跌倒與復和、等候與得力。",
-  to:"持續長進、經歷更新與突破的成熟門徒",
-  ref:"加 4:19",verse:"我為你們再受生產之苦，直等到基督成形在你們心裡。",
-  why:"成長需要時間、群體與牧養，無法速成。"},
- {n:9,name:"差遣與倍增",title:"差遣倍增",en:"Sent to Multiply",phase:"forming",
-  x:1058,y:330,lx:0,ly:46,anchor:"middle",
-  one:"門徒的終點，是成為另一個人的起點。",
-  from:"生命有根基的成熟門徒",
-  means:"差遣的陪伴——陪他列出生命圈中可接觸的人，開始親手造就「一個」。",
-  to:"一位門徒倍增者——他的「到」，成為另一個人的「從」",
-  ref:"提後 2:2",verse:"交託那忠心能教導別人的人。",
-  why:"這是倍增，而非加添：一個影響一個。"}
+// ── CONSTANTS ─────────────────────────────────────────
+var AREAS = [
+  { key:'aging', name:'Aging Well',              cn:'活好每天',   color:'#0e9ab5', icon:'🏃',
+    goal:'Gym 2x/week · Daily walks after meals · Blood sugar control · Body-mind-spirit integration',
+    audacious:'Run a 5K race by December 2026. Reduce HbA1c to below 7.0 by end of 2026.',
+    book:'活到老，活得好', income:'健康教練、線上課程、著作版稅', community:'40–60歲 注重健康長者社群',
+    legacy:'創辦長者健康學院，培育千名健康大使',
+    mastery:['健康教練認證','血糖管理知識','正念減壓訓練','課程設計與線上發佈'] },
+  { key:'art',   name:'Artistry',                cn:'藝術創作',   color:'#9b59b6', icon:'🎵',
+    goal:'Piano 15min/day · Fingerstyle guitar · English calligraphy weekly',
+    audacious:'Perform one jazz piece publicly by mid-2027. Complete a calligraphy portfolio of 12 works.',
+    book:'即興人生：爵士鋼琴的靈魂課', income:'音樂工作坊、演出、課程授權', community:'業餘音樂愛好者、創意表達者',
+    legacy:'建立跨代音樂橋樑，讓藝術治癒社區創傷',
+    mastery:['爵士即興理論','指彈吉他技巧','英文書法導師技能','工作坊教學法'] },
+  { key:'autism',name:'Autism',                  cn:'自閉症同行', color:'#2176c7', icon:'💙',
+    goal:"Sons' wellbeing · Hostel community vision · Trust fund planning · Advocacy",
+    audacious:'Establish a legal trust fund for Yat Hin and Hon Shan by end of 2026. Begin hostel feasibility study.',
+    book:'與眾不同，卻同樣美麗', income:'社區顧問、政府資助、信託基金', community:'自閉症家庭、照顧者互助網絡',
+    legacy:'籌建自閉症社區宿舍及信託基金，守護一生',
+    mastery:['英國信託基金法律知識','社會住屋申請流程','政府資助撰寫','自閉症照顧者倡議技巧'] },
+  { key:'ai',    name:'AI Agency',               cn:'AI賦能商業', color:'#e07b1a', icon:'🤖',
+    goal:'Landing page live · Make.com & n8n automation · 5 SME clients · Vibe coding apps',
+    audacious:'Serve 10 paying SME clients by end of 2026. Launch one AI automation course for Cantonese speakers.',
+    book:'AI 同行者：中小企的數碼轉型', income:'AI 自動化顧問、Make.com 方案', community:'香港/英國 SME 企業主',
+    legacy:'賦能萬家中小企，令 AI 成為公平競技場',
+    mastery:['Make.com & n8n 自動化','Vibe coding','AI Prompt Engineering','顧問銷售與定價策略'] },
+  { key:'jesus', name:'Apprentices of Jesus',    cn:'耶穌學徒',   color:'#c9973f', icon:'✝️',
+    goal:'Daily devotion · Disciple 1–2 people · BNO Christian community · Spiritual formation',
+    audacious:'Disciple 3 people deeply by end of 2027. Launch a monthly discipleship gathering for HK immigrants in Southampton.',
+    book:'門徒之路：信仰塑造的生命', income:'門徒培訓課程、靈修退修營', community:'基督徒門徒、生命導師學員',
+    legacy:'建立華人門徒網絡，跨越教會文化邊界',
+    mastery:['聖經釋經能力','一對一門訓方法論','跨文化牧養','退修營設計與帶領'] },
+  { key:'auth',  name:'Authorship',              cn:'數碼著作',   color:'#0e8a7a', icon:'✍️',
+    goal:'Post 3x/week on LinkedIn · KDP book outline · Online course · Bilingual content',
+    audacious:'Publish first KDP book by end of 2026. Reach 1,000 LinkedIn followers by December 2026.',
+    book:'寫出你的第二人生', income:'KDP 出版、線上課程、版稅', community:'有故事想說的中年寫作人',
+    legacy:'出版改變生命的系列，成為中年轉型的指路明燈',
+    mastery:['KDP 出版流程','LinkedIn 內容策略','線上課程平台操作','中英雙語寫作技藝'] },
+  { key:'farm',  name:'Agriculture',             cn:'城市農耕',   color:'#4a8c1a', icon:'🌱',
+    goal:'Weekly planting · Document farming journey · Autism farm vision · Permaculture learning',
+    audacious:'Establish a productive container garden by summer 2026. Draft autism community farm proposal by 2027.',
+    book:'城市農夫：豐盛從泥土開始', income:'城市農場導賞、農產品訂閱盒', community:'都市農耕愛好者、永續生活者',
+    legacy:'開創城市農耕運動，讓弱勢社群重獲土地與尊嚴',
+    mastery:['樸門永續設計','容器種植技術','社區農場運營','農療（Horticultural Therapy）基礎'] }
 ];
-const TREASURE={x:1122,y:196};
 
-/* ---------------- MAP (home) ---------------- */
-/* ---------------- BUILD HOME GRID (3x3 guide) ---------------- */
-const homeGrid=document.getElementById("homeGrid");
-STATIONS.forEach(function(s){
-  const a=document.createElement("a");
-  a.className="block phase-"+s.phase;
-  a.href="#st-"+s.n;
-  a.setAttribute("aria-label","第 "+s.n+" 站："+s.title);
-  a.innerHTML='<span class="b-seal">'+s.n+'</span><span class="b-title">'+s.title+'</span>';
-  homeGrid.appendChild(a);
-});
+var QUOTES = [
+  "「你手所當做的事要盡力去做」— 傳道書 9:10",
+  "每天微小的進步，累積成驚人的成就。Small daily improvements lead to stunning results.",
+  "You don't have to be great to start, but you have to start to be great.",
+  "每位專家都曾是初學者。繼續前行，Ambrose。",
+  "種樹最好的時機是二十年前，其次是現在。The second best time is now.",
+  "小事忠心，大事必成。Faithful in small things — great things follow.",
+  "進步，而非完美。Progress, not perfection.",
+  "我靠著那加給我力量的，凡事都能做。— 腓立比書 4:13",
+  "好，你這又良善又忠心的僕人。— 馬太福音 25:23",
+  "你要專心仰賴耶和華。— 箴言 3:5"
+];
 
-/* ---------------- BUILD STATION PAGES ---------------- */
-const ESSAY_ST1=`
-  <div class="essay">
-    <span class="essay-eyebrow">細看這一站</span>
-    <h3>路上相遇 · 友善之關係</h3>
-    <p class="essay-intro">門徒之路的第一步，不是一場精彩的佈道會，而是一段真誠的友誼。耶穌進入人群，從來是「同在」先於「宣講」、「關係」先於「決志」。對在英國重新落腳的港人而言，這正是最自然、也最合乎福音的起點。</p>
+var DEFAULT_TASKS = [
+  { time:'6:00–6:30',   task:'Morning devotion & prayer · 晨禱默想',         area:'jesus', done:false },
+  { time:'6:30–7:00',   task:'Exercise / walk after breakfast · 運動散步',    area:'aging', done:false },
+  { time:'9:00–10:30',  task:'AI Agency work block · AI商業工作',            area:'ai',    done:false },
+  { time:'10:30–10:45', task:'Piano / guitar practice · 鋼琴或結他練習',      area:'art',   done:false },
+  { time:'14:00–15:30', task:'Authorship · write & post · 寫作發佈',          area:'auth',  done:false },
+  { time:'16:00–16:30', task:'Urban farming · garden check · 農耕巡視',       area:'farm',  done:false },
+  { time:'20:00–20:15', task:'Daily reflection · 每日反思',                   area:'jesus', done:false }
+];
 
-    <div class="theme">
-      <div class="theme-title"><span class="tn">壹</span>同席</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>耶穌呼召稅吏利未後，第一件事不是查考他的觀念，而是坐在他家的筵席上，與一桌「稅吏和罪人」同席（可 2:14-15）。在猶太人眼中，同桌吃飯是接納的記號；耶穌用一張飯桌，拆掉了人以為自己「不配」的牆。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>對港人，飯桌同樣是最短的橋。一頓茶餐廳早餐、一鍋打邊爐、教會的中秋與新年聚餐，比任何單張都更快讓一個剛到埠、人生路不熟的家庭感到「我並不孤單」。彼此連結，往往就由一句「得閒一齊食餐飯」開始——這正是利未筵席的當代版本。</p></div>
-    </div>
+var DEFAULT_WINS = [
+  { text:'Completed morning devotion · 完成晨禱', done:false },
+  { text:'Walked 20 minutes · 散步20分鐘',        done:false },
+  { text:'Made progress on AI work · AI工作進展', done:false }
+];
 
-    <div class="theme">
-      <div class="theme-title"><span class="tn">貳</span>從真實的渴切入</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>在敘加井旁，耶穌沒有先指出撒瑪利亞婦人的過去，而是從她每天必做的事——打水——切入，談到一種「喝了不再渴」的活水（約 4:13-14）。祂從對方真實的渴，引向更深的渴。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>港人移民的「渴」很具體：身份與歸屬、子女教育、語言與工作、對留港親人的牽掛、人到中年後半生的茫然。連結的起點不是先談教義，而是先聆聽這些渴——正如耶穌先在井旁，聽見那婦人裡面的乾渴。</p></div>
-    </div>
+// ── STATE ─────────────────────────────────────────────
+var activeArea = 'aging';
+var state = {
+  pct:         { aging:25, art:15, autism:20, ai:30, jesus:35, auth:10, farm:20 },
+  tasks:       JSON.parse(JSON.stringify(DEFAULT_TASKS)),
+  wins:        JSON.parse(JSON.stringify(DEFAULT_WINS)),
+  days:        [false,false,false,false,false,false,false],
+  mood:        '',
+  reflections: [],
+  lastDate:    '',
+  masteryDates: {}
+};
 
-    <div class="theme">
-      <div class="theme-title"><span class="tn">參</span>關係先於改變</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>耶穌主動對撒該說「今天我必住在你家裡」（路 19:5）。祂先進了撒該的家、先接納了他，撒該的悔改與賠償才隨之而來——次序是「接納在先，改變在後」。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>與港人連結，也是先做實在的事：接送子女、陪覆診、指點租屋與搵工、在群組裡互通生活情報。這些不是「為傳福音而設的手段」，而是真實的愛鄰舍；信任在服事中長出來，分享才有立足之地。</p></div>
-    </div>
-
-    <div class="theme">
-      <div class="theme-title"><span class="tn">肆</span>你來看 · 你們是我的朋友</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>腓力邀請拿但業時，沒有與他爭辯，只說「你來看」（約 1:46）。到了最後，耶穌對門徒說：「我乃稱你們為朋友」（約 15:15）。福音的邀請，本質上是一個朋友請另一個朋友「來看」。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>當友誼真實、信任已立，分享便自然發生：「我移民後最難的那一段，是信仰扶住了我」「教會這班弟兄姊妹，成了我在英國的家」。然後最簡單的一句邀請——「得閒嚟我哋教會睇吓」——就是港人版的「你來看」。</p></div>
-    </div>
-
-    <div class="essay-box">
-      <span class="tk">搭橋後離橋</span>
-      <p>但這裡必須守住界線。友誼若只是換取「成交」的工具，一旦對方無意返教會便冷淡下來，那就不再是愛，而是行銷。耶穌的不同在於：祂的接納沒有條件，祂也誠實說明跟隨的代價（路 14:28）；而且祂自己就是那藏在地裡的至寶（太 13:44），不是課程的推銷員。我們請朋友「來看」的，最終不是教會的節目，而是基督本身。</p>
-    </div>
-
-    <div class="essay-box apply">
-      <span class="tk">給門徒造就者</span>
-      <p>所以第一站的功課很樸素：求神給你一兩位可以「同席」的華人朋友；聆聽他們真實的渴而不急著給答案；做一件實在的好事而不附帶條件；在信任夠了的時候，誠實說出耶穌怎樣扶住你、教會怎樣成了你的家——然後輕輕說一句：「得閒，你來看。」</p>
-    </div>
-  </div>`;
-
-const ESSAY_ST3=`
-  <div class="essay">
-    <span class="essay-eyebrow">細看這一站</span>
-    <h3>與我有關 · 共鳴</h3>
-    <p class="essay-intro">共鳴不是說服，而是讓人覺得「這也許與我有關」。耶穌總是從人此刻真實的渴切入，而不是從抽象的道理開始——先觸到對方在意的那一點，門才會打開。</p>
-
-    <div class="theme">
-      <div class="theme-title"><span class="tn">壹</span>從每天的渴切入</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>在井旁，耶穌沒有先談宗教，而是從婦人每天必做的事——打水——說起，再引到一種「喝了永遠不渴」的活水（約 4:13-14）。祂從身體的渴，引向心靈深處的渴。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>港人移民的渴很具體：身份、子女教育、工作與居所、與留港親人的牽掛。連結的起點，不是先講教義，而是先觸到對方此刻真正在渴的那一點。</p></div>
-    </div>
-
-    <div class="theme">
-      <div class="theme-title"><span class="tn">貳</span>先餵飽，再指向生命的糧</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>群眾因吃餅得飽而追隨耶穌；祂沒有責備他們的現實需要，卻溫柔地把他們的眼光從「會壞的食物」引到「存到永生的食物」——「我就是生命的糧」（約 6:26-27、35）。先回應眼前的需要，再指向更深的滿足。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>在英港人也常為眼前奔波——搵工、租屋、安頓子女。真誠地陪他們面對這些「會壞的食物」，並不庸俗；那正是把話題自然帶到「人活著不是單靠食物」的橋。</p></div>
-    </div>
-
-    <div class="theme">
-      <div class="theme-title"><span class="tn">參</span>從你熟悉的事說起</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>耶穌呼召彼得，不用陌生的術語，而是借他最熟悉的「打魚」：一網滿載之後，說「從今以後，你要得人了」（路 5:4-10）。祂用對方的語言，說出對方的召命。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>每個港人都有自己熟悉的世界——會計、廚藝、教書、湊仔、做生意。從他熟悉的事說起，讓他看見：神要在他原本的生活與恩賜裡使用他。福音不在生活之外，而在生活之中。</p></div>
-    </div>
-
-    <div class="essay-box">
-      <span class="tk">搭橋後離橋</span>
-      <p>觸及人的渴，是為了引介那位能真正解渴的主，不是把需要當成推銷的把手。所以我們先聆聽、先服事，卻不操控；不因對方暫時未回應，就收起關心。耶穌給的是活水，不是話術——祂尊重人，容人自由地渴、自由地來。</p>
-    </div>
-
-    <div class="essay-box apply">
-      <span class="tk">給門徒造就者</span>
-      <p>這一站的功課：在一位朋友身上，找出他此刻最真實的那一點渴；先用心聆聽、誠實同在，不急著給答案。當信任夠了，再輕輕指向那位說「人若喝我所賜的水，就永遠不渴」的主。</p>
-    </div>
-  </div>`;
-
-const ACTION_ST3=`
-  <div class="action">
-    <span class="action-eyebrow">本週 · 實踐</span>
-    <h3>把這一站走出去 · 本週的行動</h3>
-
-    <div class="act">
-      <div><span class="num">3</span><span class="h">本週一步</span></div>
-      <p class="lead">本週只做一件事——專心聆聽一位朋友最近的掛慮，不急著給答案或講道理。</p>
-      <p class="note">像耶穌在井旁那樣，先從對方真實的渴切入。聆聽本身，就是愛；很多時候，人要的不是答案，是被聽見。</p>
-    </div>
-
-    <div class="act">
-      <div><span class="num">3</span><span class="h">我的一個</span></div>
-      <p class="lead">求神給你看見「心裡正有某種渴」的那一位——也許他正為身份、子女、工作或前路掛心。寫下名字，為他禱告。</p>
-      <textarea placeholder="例如：陳太（為仔女升學徬徨）、阿輝（搵工大半年仍未定）……" aria-label="為心裡正有某種渴的那一位禱告（此欄不會儲存）"></textarea>
-      <span class="micro">此欄只屬於你與神：不會儲存、不會上傳、不作統計。它不是名單管理，是禱告的提醒——請另記在你自己的禱告本裡。</span>
-      <p class="pray">「主啊，求祢讓我聽見 ___ 心底真正的渴；藉著我，把祢這活水的源頭指給他看。」</p>
-    </div>
-
-    <div class="act">
-      <div><span class="num">3</span><span class="h">同行對話題</span><span class="en">小組 · 一對一</span></div>
-      <ul>
-        <li>你身邊那一位，最近心裡最掛念、最渴想的是什麼？</li>
-        <li>你會不會太快給答案，而錯過了先聆聽？怎樣練習「先觸及人的渴」？</li>
-        <li>有什麼眼前實際的需要，是你可以先伸手幫一把的？</li>
-      </ul>
-    </div>
-
-    <div class="act guard">
-      <div><span class="h">守住的界線</span></div>
-      <p class="note">觸及人的渴，是為引介那位能解渴的主，不是把需要當成推銷的把手。先聆聽、先服事，卻不操控；不因對方未回應就收起關心。這一頁同樣不計分、不追蹤。</p>
-    </div>
-  </div>`;
-
-const ESSAY_ST2=`
-  <div class="essay">
-    <span class="essay-eyebrow">細看這一站</span>
-    <h3>看見改變 · 見證</h3>
-    <p class="essay-intro">見證的力量，不在雄辯，而在「改變」。當人看見一個生命真的不一樣了，最堅固的懷疑也會鬆動——「別人能，我也可能」。耶穌身邊最早把人帶來的，往往不是雄辯家，而是一個被改變的人。</p>
-
-    <div class="theme">
-      <div class="theme-title"><span class="tn">壹</span>從自己的故事說起</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>撒瑪利亞婦人沒有講一篇道，她只說：「他將我素來所行的一切都給我說出來」，城裡就有好些人因她的見證信了耶穌（約 4:39）。改變過的生命，本身就是信息。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>對港人，最有說服力的也不是一套道理，而是「你這個人不一樣了」。焦慮的人有了平安、緊張的婚姻得了復和、在移民的徬徨裡竟然有盼望——身邊的同鄉會問：你是怎麼撐過來的？</p></div>
-    </div>
-
-    <div class="theme">
-      <div class="theme-title"><span class="tn">貳</span>回家述說，不必遠行</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>被趕鬼得自由的人想跟著上船，耶穌卻說：「你回家去，到你的親屬那裡，將主為你所做的告訴他們」；他就回去，在本鄉傳揚（可 5:19-20）。見證的第一個禾場，是自己的家與本鄉。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>你的禾場，就是你的同鄉、同棟鄰居、子女學校的家長群、通訊群組裡的同路人。不必等成為講員，也不必遠赴他方——先在自己的圈子，說神在你身上做過的事。</p></div>
-    </div>
-
-    <div class="theme">
-      <div class="theme-title"><span class="tn">參</span>我只知道一件事</div>
-      <div class="track a"><span class="tk">耶穌怎樣做</span><p>生來瞎眼的人面對盤問，不與人辯神學，只說一句——「有一件事我知道，我本是瞎的，如今看見了」（約 9:25）。見證不需要完美的答案，只需要誠實的經歷。</p></div>
-      <div class="track b"><span class="tk">在英港人怎樣走</span><p>港人移民未必答得出所有信仰難題，但人人都能誠實說「以前我怎樣，現在我怎樣」。這種「我親身經歷」的見證，恰恰是最難被反駁的。</p></div>
-    </div>
-
-    <div class="essay-box">
-      <span class="tk">搭橋後離橋</span>
-      <p>見證是要指向基督，不是表演自己。所以不必把人生說得光鮮亮麗——「信耶穌就一帆風順」的成功神學，反而失了真實。誠實的見證可以包括「我仍在掙扎的部分」；因為改變的主角是神，不是「我多屬靈」。</p>
-    </div>
-
-    <div class="essay-box apply">
-      <span class="tk">給門徒造就者</span>
-      <p>這一站的功課：求神幫你把一個真實的改變，濃縮成一兩句誠實的話——不誇大、不說教——然後先在一位朋友面前說出口。你不是在證明自己，是在指著那位改變你的主。</p>
-    </div>
-  </div>`;
-
-const ACTION_ST2=`
-  <div class="action">
-    <span class="action-eyebrow">本週 · 實踐</span>
-    <h3>把這一站走出去 · 本週的行動</h3>
-
-    <div class="act">
-      <div><span class="num">1</span><span class="h">本週一步</span></div>
-      <p class="lead">本週向一位朋友，用一兩句誠實說出：信仰怎樣改變了你某一個具體的掙扎。</p>
-      <p class="note">像生來瞎眼的人那樣——不必有完美答案，只說「以前我怎樣，如今我怎樣」（約 9:25）。不誇大、不說教，一句真話勝過一篇大道理。</p>
-    </div>
-
-    <div class="act">
-      <div><span class="num">2</span><span class="h">我的一個</span></div>
-      <p class="lead">求神給你看見「需要聽見你見證」的那一位——也許他正經歷你曾走過的掙扎。寫下名字，為他禱告。</p>
-      <textarea placeholder="例如：阿強（同事，最近為移民壓力失眠）……" aria-label="為需要聽見你見證的那一位禱告（此欄不會儲存）"></textarea>
-      <span class="micro">此欄只屬於你與神：不會儲存、不會上傳、不作統計。它不是名單管理，是禱告的提醒——請另記在你自己的禱告本裡。</span>
-      <p class="pray">「主啊，我曾走過的那段路，求祢藉著我成為 ___ 的一線光；榮耀歸於祢，不歸於我。」</p>
-    </div>
-
-    <div class="act">
-      <div><span class="num">3</span><span class="h">同行對話題</span><span class="en">小組 · 一對一</span></div>
-      <ul>
-        <li>信仰改變了你哪一個具體的掙扎？你能用一兩句說出來嗎？</li>
-        <li>你會不會怕見證顯得「不夠光鮮」？誠實（包括仍在掙扎）為什麼反而更有說服力？</li>
-        <li>你身邊哪一位，正經歷你曾經走過的處境？</li>
-      </ul>
-    </div>
-
-    <div class="act guard">
-      <div><span class="h">守住的界線</span></div>
-      <p class="note">見證是指向基督，不是表演自己。我們說的是「神做了什麼」，不是「我多屬靈」；不報喜不報憂、不誇大。這一頁同樣不計分、不追蹤——量的是忠心與誠實。</p>
-    </div>
-  </div>`;
-
-const ACTION_ST1=`
-  <div class="action">
-    <span class="action-eyebrow">本週 · 實踐</span>
-    <h3>把這一站走出去 · 本週的行動</h3>
-
-    <div class="act">
-      <div><span class="num">1</span><span class="h">本週一步</span></div>
-      <p class="lead">本週，約一位華人朋友食餐飯——只聆聽，不傳道。</p>
-      <p class="note">由「同席」開始，像耶穌與利未同坐席上（可 2:15）。先讓對方感到被接納，福音的話日後自然會有位置。一件小事，勝過十個原則。</p>
-    </div>
-
-    <div class="act">
-      <div><span class="num">2</span><span class="h">我的一個</span></div>
-      <p class="lead">求神給你看見一兩個名字——剛來英國、還未有教會的華人朋友。寫下來，逐一為他們禱告。</p>
-      <textarea placeholder="例如：阿明（同棟鄰居）、Sarah（子女同學的媽媽）……" aria-label="為你生命圈中的人禱告（此欄不會儲存）"></textarea>
-      <span class="micro">此欄只屬於你與神：不會儲存、不會上傳、不作統計。它不是名單管理，是禱告的提醒——請另記在你自己的禱告本裡。</span>
-      <p class="pray">「主啊，求祢讓我真心愛這一個，無論他將來會不會返教會。」</p>
-    </div>
-
-    <div class="act">
-      <div><span class="num">3</span><span class="h">同行對話題</span><span class="en">小組 · 一對一</span></div>
-      <ul>
-        <li>近來神把哪一位放在你心上？你們的友誼走到哪個階段？</li>
-        <li>你最容易把「服事」變成「手段」的地方在哪裡？怎樣守住「先愛這個人」？</li>
-        <li>這禮拜，你可以為他做一件不附帶條件的實在小事，是什麼？</li>
-      </ul>
-    </div>
-
-    <div class="act guard">
-      <div><span class="h">守住的界線</span></div>
-      <p class="note">這一頁不計分、不排名、不追蹤「進度」。我們量的不是成交，而是忠心；推動轉化的是聖靈，不是技巧。所以——先愛這個人，無論他將來會不會返教會。</p>
-    </div>
-  </div>`;
-
-const BANNER_ST2=`
-  <picture class="st-banner">
-    <source media="(max-width:759px)" srcset="images/02-testimony-mobile.jpg">
-    <img src="images/02-testimony-desktop.jpg" alt="撒瑪利亞婦人向城裡的人作見證，耶穌在井旁——看見改變 · 見證" loading="lazy" decoding="async">
-  </picture>`;
-const BANNER_ST3=`
-  <picture class="st-banner">
-    <source media="(max-width:759px)" srcset="images/03-well-mobile.jpg">
-    <img src="images/03-well-desktop.jpg" alt="耶穌在井旁與撒瑪利亞婦人談論活水——與我有關 · 共鳴" loading="lazy" decoding="async">
-  </picture>`;
-const BANNER_ST1=`
-  <picture class="st-banner">
-    <source media="(max-width:759px)" srcset="images/01-walking-mobile.jpg">
-    <img src="images/01-walking-desktop.jpg" alt="耶穌與一位旅人在路上同行，走向地平線的晨光——與主同行 · 路上相遇" loading="lazy" decoding="async">
-  </picture>`;
-const container=document.getElementById("stationsContainer");
-const total=STATIONS.length;
-STATIONS.forEach(s=>{
-  const ph=PHASES[s.phase];
-  const prev=STATIONS.find(x=>x.n===s.n-1);
-  const next=STATIONS.find(x=>x.n===s.n+1);
-  let dots="";
-  STATIONS.forEach(x=>{dots+=`<i class="${x.n===s.n?'on':(x.n<s.n?'done':'')}"></i>`;});
-  const prevHtml = prev
-    ? `<a class="pn prev" href="#st-${prev.n}"><span class="pn-k">← 上一站 · 第 ${prev.n} 站</span><span class="pn-t">${prev.title}</span></a>`
-    : `<a class="pn prev" href="#home"><span class="pn-k">← 回首頁</span><span class="pn-t">尋寶地圖</span></a>`;
-  const nextHtml = next
-    ? `<a class="pn next" href="#st-${next.n}"><span class="pn-k">下一站 · 第 ${next.n} 站 →</span><span class="pn-t">${next.title}</span></a>`
-    : `<a class="pn next" href="#home"><span class="pn-k">旅程的循環 →</span><span class="pn-t">再從「初遇」開始</span></a>`;
-
-  const sec=document.createElement("section");
-  sec.className="view";
-  sec.id="st-"+s.n;
-  sec.innerHTML=`
-    <div class="station-page">
-      <div class="sheet">
-        ${s.n===1 ? BANNER_ST1 : (s.n===2 ? BANNER_ST2 : (s.n===3 ? BANNER_ST3 : ""))}
-        <div class="st-progress">
-          <span class="pe">${ph.zh}</span>
-          <span class="dots">${dots}</span>
-          <span class="pe">第 ${s.n} 站 / 共 ${total} 站</span>
-        </div>
-        <div class="seal">${s.n}</div>
-        <div class="st-eyebrow">第 ${s.n} 站 · ${s.name}</div>
-        <h2 class="st-title">${s.title}</h2>
-        <div class="st-rule"><span class="ln"></span><span class="dia"></span><span class="ln"></span></div>
-        <p class="st-lead">${s.one}</p>
-
-        <div class="flow">
-          <div class="step from"><span class="lab">從</span><p>${s.from}</p></div>
-          <div class="arrow">↓</div>
-          <div class="step means"><span class="lab">恩典管道</span><p>${s.means}</p></div>
-          <div class="arrow">↓</div>
-          <div class="step to"><span class="lab">到</span><p>${s.to}</p></div>
-        </div>
-
-        <div class="scripture">
-          <span class="ref">${s.ref}</span>
-          <span class="verse">${s.verse}</span>
-        </div>
-
-        <p class="why"><b>為何</b>${s.why}</p>
-        ${s.n===1 ? ESSAY_ST1 : (s.n===2 ? ESSAY_ST2 : (s.n===3 ? ESSAY_ST3 : ""))}
-        ${s.n===1 ? ACTION_ST1 : (s.n===2 ? ACTION_ST2 : (s.n===3 ? ACTION_ST3 : ""))}
-
-        <div class="page-nav">
-          ${prevHtml}
-          <a class="pn map" href="#home">回到<br>地圖</a>
-          ${nextHtml}
-        </div>
-      </div>
-    </div>`;
-  container.appendChild(sec);
-});
-
-/* ---------------- NAV BUILD ---------------- */
-const navPills=document.getElementById("navPills");
-const menuStations=document.getElementById("menuStations");
-STATIONS.forEach(s=>{
-  const p=document.createElement("a");
-  p.className="pill";p.href="#st-"+s.n;p.textContent=s.n;p.dataset.route="#st-"+s.n;
-  p.setAttribute("aria-label",`第 ${s.n} 站：${s.title}`);
-  navPills.appendChild(p);
-  const m=document.createElement("a");
-  m.href="#st-"+s.n;m.dataset.route="#st-"+s.n;
-  m.innerHTML=`<span class="mn">${s.n}</span><span>${s.title}</span>`;
-  menuStations.appendChild(m);
-});
-
-/* ---------------- ROUTER (click-intercepting; safe inside sandboxed iframes) ---------------- */
-const views=[...document.querySelectorAll(".view")];
-const menu=document.getElementById("menu");
-function closeMenu(){menu.classList.remove("open");menu.setAttribute("aria-hidden","true");
-  document.getElementById("menuBtn").setAttribute("aria-expanded","false");}
-function showView(id){
-  if(!id || !document.getElementById(id)) id="home";
-  views.forEach(v=>v.classList.toggle("active",v.id===id));
-  document.querySelectorAll("[data-route]").forEach(a=>a.classList.toggle("active",a.dataset.route==="#"+id));
-  closeMenu();
-  window.scrollTo({top:0,behavior:"auto"});
-  try{history.replaceState(null,"","#"+id);}catch(e){/* sandbox may block; ignore */}
+function loadState() {
+  try {
+    var s = localStorage.getItem('ambrose7a_v3');
+    if (s) { state = JSON.parse(s); }
+  } catch(e) { console.log('loadState error:', e); }
 }
-/* intercept in-page hash links (HTML and SVG <a>) so the iframe never tries to navigate */
-document.addEventListener("click",function(e){
-  const a=e.target.closest ? e.target.closest("a") : null;
-  if(!a) return;
-  const href=a.getAttribute("href")||"";
-  if(href.charAt(0)!=="#") return;
-  e.preventDefault();
-  showView(href.slice(1));
-});
-/* support direct URL hash + browser back/forward on real hosting */
-window.addEventListener("hashchange",()=>showView((location.hash||"#home").slice(1)));
-/* initial view */
-showView((location.hash||"#home").slice(1));
 
-/* menu toggles */
-document.getElementById("menuBtn").addEventListener("click",()=>{
-  const open=!menu.classList.contains("open");
-  menu.classList.toggle("open",open);menu.setAttribute("aria-hidden",open?"false":"true");
-  document.getElementById("menuBtn").setAttribute("aria-expanded",open?"true":"false");
+function saveState() {
+  try { localStorage.setItem('ambrose7a_v3', JSON.stringify(state)); } catch(e) {}
+}
+
+function checkNewDay() {
+  var today = new Date().toDateString();
+  if (state.lastDate !== today) {
+    if (state.lastDate) {
+      state.tasks = JSON.parse(JSON.stringify(DEFAULT_TASKS));
+      state.wins  = JSON.parse(JSON.stringify(DEFAULT_WINS));
+      state.mood  = '';
+    }
+    state.lastDate = today;
+    saveState();
+  }
+}
+
+// ── HELPERS ───────────────────────────────────────────
+function hexToRgb(hex) {
+  var r = parseInt(hex.slice(1,3),16);
+  var g = parseInt(hex.slice(3,5),16);
+  var b = parseInt(hex.slice(5,7),16);
+  return r + ',' + g + ',' + b;
+}
+
+// ── RENDER FUNCTIONS ──────────────────────────────────
+function renderHeader() {
+  var now = new Date();
+  var opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  document.getElementById('headerDate').innerHTML =
+    now.toLocaleDateString('en-GB', opts) +
+    '<br><span style="font-size:11px;color:rgba(255,255,255,0.4);">Southampton, UK 🇬🇧</span>';
+}
+
+function renderQuote() {
+  var idx = new Date().getDay() % QUOTES.length;
+  document.getElementById('quoteText').textContent = '💬 ' + QUOTES[idx];
+}
+
+function render7ASubtabs() {
+  var html = '';
+  for (var i = 0; i < AREAS.length; i++) {
+    var a = AREAS[i];
+    var isActive = (activeArea === a.key) ? ' active' : '';
+    html += '<div class="a-subtab' + isActive + '" style="border-left-color:' + a.color + '" onclick="selectArea(\'' + a.key + '\')">' +
+      '<div class="a-subtab-icon">' + a.icon + '</div>' +
+      '<div class="a-subtab-name">' + a.name + '</div>' +
+      '<div class="a-subtab-cn">' + a.cn + '</div>' +
+      '<div class="a-subtab-pct" style="color:' + a.color + '">' + state.pct[a.key] + '%</div>' +
+      '<div class="a-subtab-bar"><div class="a-subtab-fill" style="width:' + state.pct[a.key] + '%;background:' + a.color + '"></div></div>' +
+      '</div>';
+  }
+  document.getElementById('aSubtabs').innerHTML = html;
+}
+
+function buildMasteryList(a) {
+  var html = '';
+  for (var m = 0; m < a.mastery.length; m++) {
+    var mkey = a.key + '_' + m;
+    var mdate = (state.masteryDates && state.masteryDates[mkey]) || '';
+    var done = !!mdate;
+    html += '<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);">' +
+      '<div onclick="toggleMastery(\'' + mkey + '\')" style="flex-shrink:0;width:18px;height:18px;border-radius:4px;border:2px solid ' + (done ? a.color : 'rgba(255,255,255,0.25)') + ';background:' + (done ? a.color : 'transparent') + ';cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;">' + (done ? '✓' : '') + '</div>' +
+      '<div style="flex:1;font-size:13px;color:' + (done ? 'rgba(255,255,255,0.4)' : '#e8f4f8') + ';text-decoration:' + (done ? 'line-through' : 'none') + ';">' + a.mastery[m] + '</div>' +
+      '<input type="date" value="' + mdate + '" onchange="setMasteryDate(\'' + mkey + '\', this.value)" style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:' + (mdate ? a.color : 'rgba(255,255,255,0.3)') + ';padding:3px 6px;cursor:pointer;">' +
+    '</div>';
+  }
+  return html;
+}
+
+function render7ADetail() {
+  var a = null;
+  for (var i = 0; i < AREAS.length; i++) {
+    if (AREAS[i].key === activeArea) { a = AREAS[i]; break; }
+  }
+  if (!a) return;
+  document.getElementById('aDetail').innerHTML =
+    '<div class="a-detail-card" style="border-top:3px solid ' + a.color + ';">' +
+      '<div class="a-detail-header">' +
+        '<div>' +
+          '<div class="a-detail-title" style="color:' + a.color + '">' + a.icon + ' ' + a.name + '</div>' +
+          '<div class="a-detail-cn">' + a.cn + '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="a-detail-pct" style="color:' + a.color + '">' + state.pct[a.key] + '%</div>' +
+          '<div class="a-detail-pct-label">Progress · 進度</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="prog-bar"><div class="prog-fill" style="width:' + state.pct[a.key] + '%;background:' + a.color + '"></div></div>' +
+      '<div class="a-detail-label">📊 策略矩陣 · Strategy Matrix</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:4px;">' +
+        '<div style="background:rgba(' + hexToRgb(a.color) + ',0.08);border:1px solid rgba(' + hexToRgb(a.color) + ',0.25);border-radius:10px;padding:0.75rem 0.9rem;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:5px;">🏆 傳奇貢獻 · Legendary Legacy</div>' +
+          '<div style="font-size:13px;color:' + a.color + ';line-height:1.5;font-weight:500;">' + a.legacy + '</div>' +
+        '</div>' +
+        '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.75rem 0.9rem;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:5px;">👥 社群 · Community</div>' +
+          '<div style="font-size:13px;color:#e8f4f8;line-height:1.5;">' + a.community + '</div>' +
+        '</div>' +
+        '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.75rem 0.9rem;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:5px;">📖 書名 · Book Title</div>' +
+          '<div style="font-size:13px;color:#e8f4f8;line-height:1.5;">' + a.book + '</div>' +
+        '</div>' +
+        '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.75rem 0.9rem;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:5px;">💰 收入來源 · Income Stream</div>' +
+          '<div style="font-size:13px;color:#e8f4f8;line-height:1.5;">' + a.income + '</div>' +
+        '</div>' +
+        '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.75rem 0.9rem;grid-column:1/-1;">' +
+          '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + a.color + ';margin-bottom:10px;">🛠️ 修煉功夫 · Mastery Stack</div>' +
+          buildMasteryList(a) +
+        '</div>' +
+      '</div>' +
+      '<button class="btn-update" onclick="editPct(\'' + a.key + '\')">✏️ Update progress · 更新進度</button>' +
+    '</div>';
+}
+
+function renderTasks() {
+  var html = '';
+  for (var i = 0; i < state.tasks.length; i++) {
+    var t = state.tasks[i];
+    var areaColor = '#888';
+    for (var j = 0; j < AREAS.length; j++) {
+      if (AREAS[j].key === t.area) { areaColor = AREAS[j].color; break; }
+    }
+    html += '<div class="tb-item' + (t.done ? ' done' : '') + '" onclick="toggleTask(' + i + ')">' +
+      '<div class="tb-dot" style="background:' + areaColor + '"></div>' +
+      '<span class="tb-time">' + t.time + '</span>' +
+      '<span class="tb-task">' + t.task + '</span>' +
+      (t.done ? '<span class="tb-check">✓</span>' : '') +
+      '</div>';
+  }
+  document.getElementById('tbList').innerHTML = html;
+}
+
+function renderWins() {
+  var html = '';
+  for (var i = 0; i < state.wins.length; i++) {
+    var w = state.wins[i];
+    html += '<div class="win-item' + (w.done ? ' done' : '') + '">' +
+      '<div class="win-circle' + (w.done ? ' done' : '') + '" onclick="toggleWin(' + i + ')">' + (w.done ? '✓' : '') + '</div>' +
+      '<span>' + w.text + '</span>' +
+      '</div>';
+  }
+  document.getElementById('winsList').innerHTML = html;
+}
+
+function renderDays() {
+  var labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var todayIdx = (new Date().getDay() + 6) % 7;
+  var html = '';
+  for (var i = 0; i < 7; i++) {
+    var cls = (i === todayIdx) ? 'today' : (state.days[i] ? 'checked' : '');
+    html += '<div class="day-dot ' + cls + '" onclick="toggleDay(' + i + ')">' + labels[i] + '</div>';
+  }
+  document.getElementById('daysRow').innerHTML = html;
+  var streak = 1;
+  for (var i = 0; i < state.days.length; i++) { if (state.days[i]) streak++; }
+  document.getElementById('streakLabel').textContent = streak + (streak === 1 ? ' day' : ' days');
+}
+
+function renderGoals() {
+  var html = '';
+  for (var i = 0; i < AREAS.length; i++) {
+    var a = AREAS[i];
+    html += '<div class="goal-card" style="border-left:4px solid ' + a.color + ';border-radius:0 12px 12px 0;">' +
+      '<div style="font-size:14px;font-weight:600;color:' + a.color + ';margin-bottom:6px;">' + a.icon + ' ' + a.name + ' · ' + a.cn + '</div>' +
+      '<div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">Current focus · 現時焦點：</div>' +
+      '<div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">' + a.goal + '</div>' +
+      '<div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">🌟 Audacious goal · 宏大目標：</div>' +
+      '<div style="font-size:13px;color:#5dd6c0;margin-bottom:10px;">' + a.audacious + '</div>' +
+      '<div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">' +
+        '<span>Progress · 進度</span><span>' + state.pct[a.key] + '%</span>' +
+      '</div>' +
+      '<div class="prog-bar" style="height:6px;"><div class="prog-fill" style="width:' + state.pct[a.key] + '%;background:' + a.color + '"></div></div>' +
+    '</div>';
+  }
+  document.getElementById('goalsList').innerHTML = html;
+}
+
+function renderPastReflections() {
+  var el = document.getElementById('pastReflections');
+  if (!state.reflections || !state.reflections.length) {
+    el.innerHTML = '<div class="card" style="color:rgba(255,255,255,0.35);font-size:13px;">No reflections saved yet · 尚未儲存任何反思</div>';
+    return;
+  }
+  var recent = state.reflections.slice(-5).reverse();
+  var html = '';
+  for (var i = 0; i < recent.length; i++) {
+    var r = recent[i];
+    html += '<div class="card" style="margin-bottom:10px;">' +
+      '<div style="font-size:11px;color:#5dd6c0;margin-bottom:8px;">' + r.date + ' ' + (r.mood||'') + '</div>' +
+      (r.r1 ? '<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">🌿 Grateful · 感恩</div><div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">' + r.r1 + '</div>' : '') +
+      (r.r2 ? '<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">💡 Lesson · 功課</div><div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">' + r.r2 + '</div>' : '') +
+      (r.r3 ? '<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">🎯 Tomorrow · 明日</div><div style="font-size:13px;color:#c8e0e8;margin-bottom:8px;">' + r.r3 + '</div>' : '') +
+      (r.r4 ? '<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">🙏 Prayer · 禱告</div><div style="font-size:13px;color:#c8e0e8;">' + r.r4 + '</div>' : '') +
+      '</div>';
+  }
+  el.innerHTML = html;
+}
+
+function updateStats() {
+  var total = 0;
+  for (var k in state.pct) { total += state.pct[k]; }
+  var avg = Math.round(total / AREAS.length);
+  var streak = 1;
+  for (var i = 0; i < state.days.length; i++) { if (state.days[i]) streak++; }
+  var wins = 0;
+  for (var i = 0; i < state.wins.length; i++) { if (state.wins[i].done) wins++; }
+  var left = 0;
+  for (var i = 0; i < state.tasks.length; i++) { if (!state.tasks[i].done) left++; }
+  var target = new Date('2028-09-05');
+  var daysLeft = Math.max(0, Math.ceil((target - new Date()) / 86400000));
+  document.getElementById('statOverall').textContent = avg + '%';
+  document.getElementById('statStreak').textContent  = streak;
+  document.getElementById('statWins').textContent    = wins;
+  document.getElementById('statTasks').textContent   = left;
+  document.getElementById('statDays').textContent    = daysLeft.toLocaleString();
+}
+
+// ── ACTIONS ───────────────────────────────────────────
+function selectArea(key) {
+  activeArea = key;
+  render7ASubtabs();
+  render7ADetail();
+}
+
+function toggleMastery(mkey) {
+  if (!state.masteryDates) state.masteryDates = {};
+  if (state.masteryDates[mkey]) {
+    delete state.masteryDates[mkey];
+  } else {
+    state.masteryDates[mkey] = new Date().toISOString().slice(0,10);
+  }
+  saveState();
+  render7ADetail();
+}
+
+function setMasteryDate(mkey, val) {
+  if (!state.masteryDates) state.masteryDates = {};
+  if (val) { state.masteryDates[mkey] = val; }
+  else { delete state.masteryDates[mkey]; }
+  saveState();
+  render7ADetail();
+}
+
+
+function editPct(key) {
+  var a = null;
+  for (var i = 0; i < AREAS.length; i++) { if (AREAS[i].key === key) { a = AREAS[i]; break; } }
+  if (!a) return;
+  var v = prompt('Update progress for ' + a.name + ' (0–100):\n更新「' + a.cn + '」的進度 (0–100):', state.pct[key]);
+  if (v !== null) {
+    var n = parseInt(v);
+    if (isNaN(n)) n = 0;
+    n = Math.min(100, Math.max(0, n));
+    state.pct[key] = n;
+    saveState();
+    render7ASubtabs();
+    render7ADetail();
+    renderGoals();
+    updateStats();
+    showToast(a.icon + ' Updated to ' + n + '% · 已更新至 ' + n + '%');
+  }
+}
+
+function toggleTask(i) {
+  state.tasks[i].done = !state.tasks[i].done;
+  saveState(); renderTasks(); updateStats();
+  if (state.tasks[i].done) showToast('Task done! · 任務完成！✓');
+}
+
+function toggleWin(i) {
+  state.wins[i].done = !state.wins[i].done;
+  saveState(); renderWins(); updateStats();
+  if (state.wins[i].done) showToast('🎉 Win celebrated! · 勝利慶祝！');
+}
+
+function toggleDay(i) {
+  state.days[i] = !state.days[i];
+  saveState(); renderDays(); updateStats();
+}
+
+function setMood(btn, m) {
+  var btns = document.querySelectorAll('.mood-btn');
+  for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('sel'); }
+  btn.classList.add('sel');
+  state.mood = m;
+}
+
+function saveReflection() {
+  var r1 = document.getElementById('r1').value.trim();
+  var r2 = document.getElementById('r2').value.trim();
+  var r3 = document.getElementById('r3').value.trim();
+  var r4 = document.getElementById('r4').value.trim();
+  if (!r1 && !r2 && !r3 && !r4) { showToast('Please write at least one · 請填寫至少一項'); return; }
+  var now = new Date();
+  state.reflections.push({
+    date: now.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }),
+    mood: state.mood, r1:r1, r2:r2, r3:r3, r4:r4
+  });
+  saveState(); renderPastReflections();
+  document.getElementById('r1').value = '';
+  document.getElementById('r2').value = '';
+  document.getElementById('r3').value = '';
+  document.getElementById('r4').value = '';
+  showToast('Reflection saved! Well done, Ambrose 🙏');
+}
+
+// ── TABS ──────────────────────────────────────────────
+function showTab(name) {
+  var tabs = ['7a','today','reflect','goals'];
+  for (var i = 0; i < tabs.length; i++) {
+    var el = document.getElementById('tab-' + tabs[i]);
+    if (el) el.style.display = (tabs[i] === name) ? 'block' : 'none';
+    var btn = document.getElementById('maintab-' + tabs[i]);
+    if (btn) btn.classList.toggle('active', tabs[i] === name);
+  }
+  var lbl = document.getElementById('label-7a');
+  if (lbl) lbl.style.display = (name === '7a') ? 'flex' : 'none';
+}
+
+// ── MODALS ────────────────────────────────────────────
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function saveTask() {
+  var time = document.getElementById('taskTime').value.trim() || 'Anytime';
+  var task = document.getElementById('taskName').value.trim();
+  var area = document.getElementById('taskArea').value;
+  if (!task) { showToast('Please enter a task name · 請輸入任務名稱'); return; }
+  state.tasks.push({ time:time, task:task, area:area, done:false });
+  saveState(); renderTasks(); closeModal('taskModal');
+  document.getElementById('taskTime').value = '';
+  document.getElementById('taskName').value = '';
+  showToast('Task added! · 任務已新增！');
+}
+
+function saveWin() {
+  var text = document.getElementById('winText').value.trim();
+  if (!text) { showToast('Please enter your win · 請輸入您的勝利'); return; }
+  state.wins.push({ text:text, done:true });
+  saveState(); renderWins(); updateStats(); closeModal('winModal');
+  document.getElementById('winText').value = '';
+  showToast('🎉 Win logged! · 勝利已記錄！');
+}
+
+// ── TOAST ─────────────────────────────────────────────
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2800);
+}
+
+// ── MODAL CLOSE ON BG CLICK ───────────────────────────
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal-bg')) {
+    e.target.classList.remove('open');
+  }
 });
-document.getElementById("menuClose").addEventListener("click",closeMenu);
-document.getElementById("openMenu").addEventListener("click",()=>{
-  menu.classList.add("open");menu.setAttribute("aria-hidden","false");
-});
+
+// ── INIT ──────────────────────────────────────────────
+loadState();
+checkNewDay();
+renderHeader();
+renderQuote();
+render7ASubtabs();
+render7ADetail();
+renderTasks();
+renderWins();
+renderDays();
+renderGoals();
+renderPastReflections();
+updateStats();
+showTab('7a');
 </script>
 </body>
 </html>
